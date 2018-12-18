@@ -1,1 +1,7 @@
 theme: jekyll-theme-architect
+relative_links:
+  enabled: true
+  collections: true
+include:
+  - README.md
+  - Test.md
