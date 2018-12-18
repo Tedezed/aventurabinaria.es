@@ -1,4 +1,7 @@
+title: Aventura Binaria
+description: Blog Github
 theme: jekyll-theme-architect
+show_downloads: true
 relative_links:
   enabled: true
   collections: true
