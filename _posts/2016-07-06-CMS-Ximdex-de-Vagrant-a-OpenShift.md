@@ -20,7 +20,7 @@ Partiendo de que ya tenemos configurado vagrant, creamos el directorio de la maq
 Ejecutamos <code>vagrant init</code> para crear el archivo Vagrantfile.
 Modificamos, configuramos una maquina vagrant con una interfaz privada de red para poder conectarnos, memoria y cpu a usar:
 
-[enlighter lang="ruby"]
+```
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -36,7 +36,7 @@ vb.customize ["modifyvm", :id, "--memory", "1024"]
 vb.customize ["modifyvm", :id, "--cpus" , 2]
 end
 end
-[/enlighter]
+```
 
 Iniciamos la maquina con:
 <pre>vagrant up</pre>
@@ -122,7 +122,7 @@ En la maquina vagrant, exportamos la db de ximdex en MySql al archivo db_ximdex.
 <pre>mysqldump -u usuario_db -p nombre_db &gt; db_ximdex.sql</pre>
 Estructura de la DB MySql:
 
-[enlighter lang="python"]
+```
 +---------------------------------+
 | Tables_in_ximdex |
 +---------------------------------+
@@ -245,7 +245,7 @@ Estructura de la DB MySql:
 | XimNewsNews |
 | XimTAGSTags |
 +---------------------------------+
-[/enlighter]
+```
 
 Realizamos un git push.
 
@@ -253,7 +253,7 @@ Nos conectamos por ssh y para cambiar los parametros de la db MySql del PaaS, pa
 
 Cambiamos la configuración de la db de ximdex:
 <pre>nano /var/www/myximdex/conf/install-params.conf.php</pre>
-[enlighter lang="php"]
+```
 /* DATABASE_PARAMS (do not remove this comment, please) */
 $DBHOST = "localhost";
 $DBPORT = "3306";
@@ -262,7 +262,7 @@ $DBPASSWD = "XIMDEX_DBPASS";
 $DBNAME = "myximdexDB";
 
 $XIMDEX_ROOT_PATH = "/var/www/myximdex";;
-[/enlighter]
+```
 
 Tenemos que actualizar la db con los parametros nuevos del PaaS, podemos acerlo de dos oformas:
 Importamos la DB:
@@ -276,7 +276,8 @@ mysql -u usuario_mysql nombre_bbdd -p &lt; ruta_fichero_importación.sql</pre>
 <ul>
 	<li>Utilizar el siguiente script en python, antes de importar la db:</li>
 </ul>
-[enlighter lang="python"]
+
+```
 import sys
 fil = sys.argv[1]
 cad1 = raw_input('Cadena a sustituir: ')
@@ -293,7 +294,7 @@ archi.close()
 archi2 = open(fil,'w')
 archi2.write(sql)
 archi2.close()
-[/enlighter]
+```
 
 A este script le pasamos como parametro db_ximdex.sql, se ejecutaria de la siguiente forma:
 <pre>python nombre_script.py db_ximdex.sql
