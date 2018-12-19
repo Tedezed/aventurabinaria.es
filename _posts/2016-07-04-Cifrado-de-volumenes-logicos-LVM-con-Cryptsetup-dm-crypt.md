@@ -43,8 +43,8 @@ Editamos con nano /etc/fstab para que se monte al inicio como opt2:
 /dev/mapper/cifrado /opt2 xfs defaults,noatime,nodiratime 1 2
 ```
 
-Reiniciamos para ver el funcionamiento del montaje automático del volumen cifrado, este sera el mensaje que nos aparecerá:
-<a href="http://www.aventurabinaria.es/wp-content/uploads/2015/11/IMG_20151103_d.jpg"><img class="alignnone size-medium wp-image-366" src="http://www.aventurabinaria.es/wp-content/uploads/2015/11/IMG_20151103_d-744x376.jpg" alt="lvm encriptado debian" width="744" height="376" /></a>
+Reiniciamos para ver el funcionamiento del montaje automático del volumen cifrado.
+
 Introducimos la contraseña para descifrar.
 
 Para eliminar el volumen; eliminamos las lineas añadidas en fstab y cryptab. Reiniciamos.

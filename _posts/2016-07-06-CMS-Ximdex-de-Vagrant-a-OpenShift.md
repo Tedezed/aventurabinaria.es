@@ -7,8 +7,6 @@ comments: true
 
 <strong>Desplegando Ximdex en un entorno de desarrollo para después ser montado en un entorno de producción.</strong>
 
-<a href="http://aventurabinaria-tedgoo.rhcloud.com/wp-content/uploads/2015/08/vagrant.jpg"><img class="alignnone size-full wp-image-26" src="http://aventurabinaria-tedgoo.rhcloud.com/wp-content/uploads/2015/08/vagrant.jpg" alt="vagrant" width="700" height="534" /></a>
-
 Configuramos entorno de producción, OpenShift:
 <ul>
 	<li>Seleccionamos PHP 5.4</li>

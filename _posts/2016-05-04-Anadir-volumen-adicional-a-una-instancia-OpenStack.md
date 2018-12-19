@@ -9,8 +9,6 @@ En esta entrada aprenderemos a añadir un volumen a una instancia de OpenStack, 
 
 En primer lugar tendremos que crear un volumen para después asociarlo a nuestra maquina virtual. Quedara de la siguiente forma. En mi caso, cree dos volúmenes para dos maquinas virtuales.
 
-<a href="http://www.aventurabinaria.es/wp-content/uploads/2016/05/Captura-de-pantalla-de-2016-05-04-080407.png"><img src="http://www.aventurabinaria.es/wp-content/uploads/2016/05/Captura-de-pantalla-de-2016-05-04-080407-744x260.png" alt="Captura de pantalla de 2016-05-04 08:04:07" width="744" height="260" class="alignnone size-medium wp-image-842" /></a>
-
 Como podemos ver en la imagen anterior, OpenStack al asociar el volumen, nos lo añadió en `/dev/vdb`, para comprobar que tenemos nuestro volumen asociado a la  instancia ejecutamos lo siguiente:
 
 `lsblk`

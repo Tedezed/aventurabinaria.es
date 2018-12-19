@@ -7,8 +7,6 @@ comments: true
 
 En esta entrada tratare un problemas al que muchos nos hemos enfrentado al montar un cluster Activo/Activo o Activo/Pasivo con VIP dentro de de OpenStack. El problema reside en que la VIP que asignas es normalmente de una subnet de neutron, para poder acceder a este recurso podremos acceder desde otra maquina virtual en la misma subnet o asociando la IP de la VIP a una IP flotante.
 
-<a href="http://www.aventurabinaria.es/wp-content/uploads/2016/05/VIP-OPENSTACK.png"><img src="http://www.aventurabinaria.es/wp-content/uploads/2016/05/VIP-OPENSTACK.png" alt="VIP-OPENSTACK" width="581" height="230" class="alignnone size-full wp-image-867" /></a>
-
 Para poder realizar la asociación correctamente necesitaremos; la VIP, id IP flotante, id port de la VIP.
 
 En primer lugar listamos las redes con neutron, para consultar la id de la red
