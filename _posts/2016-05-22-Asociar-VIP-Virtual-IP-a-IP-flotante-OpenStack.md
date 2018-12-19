@@ -21,9 +21,7 @@ En primer lugar listamos las redes con neutron, para consultar la id de la red
 	| a86fc437-XXXX-XXXX-XXXX-f37a7b05537f | ext-net                  | 3c8cdfb0-XXXX-XXXX-XXXX-c6c3e228b81c             |
 	+--------------------------------------+--------------------------+--------------------------------------------------+
 
-Creamos un puerto para la VIP
-
-**`neutron port-create {net-id} --fixed-ip ip_address={ip}`**
+Creamos un puerto para la VIP **`neutron port-create {net-id} --fixed-ip ip_address={ip}`**
 
 	neutron port-create 9734556d-XXXX-XXXX-XXXX-fdad435fff18 --fixed-ip ip_address=10.0.0.38
 
@@ -50,9 +48,7 @@ Para poder asociar la IP flotante necesitaremos su id, para ello podemos listar 
 	| ea9033b1-XXXX-XXXX-XXXX-6dc56a6b9cea | 10.0.0.52        | 172.22.205.245      | c219e492-NNNN-NNNN-NNNN-62ee771c5700 |
 	+--------------------------------------+------------------+---------------------+--------------------------------------+
 
-Finalmente la asociamos con la IP flotante con la VIP con
-
-**`neutron floatingip-associate --fixed-ip-address {ip} {float-ip-uuid} {port-uuid}`**
+Finalmente la asociamos con la IP flotante con la VIP con **`neutron floatingip-associate --fixed-ip-address {ip} {float-ip-uuid} {port-uuid}`**
 
 	neutron floatingip-associate --fixed-ip-address 10.0.0.38 d6f96986-EEEE-EEEE-EEEE-563823df3216 2821603c-POPP-POPP-POPP-bd2349b29e63
 
@@ -73,4 +69,3 @@ Resultado final
 	| ea9033b1-XXXX-XXXX-XXXX-6dc56a6b9cea | 10.0.0.52        | 172.22.205.245      | c219e492-NNNN-NNNN-NNNN-62ee771c5700 |
 	+--------------------------------------+------------------+---------------------+--------------------------------------+ 
 
-Un saludo!

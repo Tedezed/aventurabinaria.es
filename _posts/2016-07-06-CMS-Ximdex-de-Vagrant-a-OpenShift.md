@@ -297,22 +297,18 @@ archi2.close()
 ```
 
 A este script le pasamos como parametro db_ximdex.sql, se ejecutaria de la siguiente forma:
-<pre>python nombre_script.py db_ximdex.sql
-</pre>
+<pre>$ python nombre_script.py db_ximdex.sql
 192.168.40.50/ximdex
-por:
-ximdex-tedezed.rhcloud.com
+</pre>
+por: `ximdex-tedezed.rhcloud.com`
 
-Lo ejecutamos de nuevo y sustituimos:
-
-/var/www/ximdex
-por:
-/var/lib/openshift/***************/app-root/repo/
+Lo ejecutamos de nuevo y sustituimos: `/var/www/ximdex`
+por: `/var/lib/openshift/***************/app-root/repo/`
 
 Por ultimo importas la db:
 <pre>cd app-root/repo/
 mysql -u usuario_mysql nombre_bbdd -p &lt; ruta_fichero_importación.sql</pre>
-Ya estaría listo el despliegue de Ximdex, las publicaciones por defecto estarían en:
-http://URL/data/previos/
-Publicación de ejemplo:
-http://ximdex-tedezed.rhcloud.com/data/previos/
+
+Ya estaría listo el despliegue de Ximdex, las publicaciones por defecto estarían en: http://URL/data/previos/
+
+Publicación de ejemplo: http://ximdex-tedezed.rhcloud.com/data/previos/

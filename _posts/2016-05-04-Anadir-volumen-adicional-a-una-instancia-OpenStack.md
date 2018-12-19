@@ -51,4 +51,4 @@ Por ultimo para que se monte automáticamente lo añadimos a `/etc/fstab`
 
 	/dev/vdb /shared       xfs     defaults        0       0
 
-Con esto ya tendríamos listo nuestro volumen, Un saludo!
+Con esto ya tendríamos listo nuestro volumen.
