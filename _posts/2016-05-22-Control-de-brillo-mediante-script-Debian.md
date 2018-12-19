@@ -53,14 +53,14 @@ echo $brillo &gt; /sys/class/backlight/intel_backlight/brightness
 else
 echo 0 &gt; /sys/class/backlight/intel_backlight/brightness
 fi
-[/enlighter]
+```
 
 Para instalarlo ejecutamos el instalador:
 <div class="shell"><code>sh install_root.sh</code></div>
 &nbsp;
 
 install_root.sh
-[enlighter lang="bash"]
+```
 #!/bin/sh
 mkdir /usr/local/bin/control_brillo
 cp subir_brillo.sh /usr/local/bin/control_brillo
