@@ -9,12 +9,12 @@ comments: true
 - Source [Celtic-Kubernetes](https://github.com/Tedezed/Celtic-Kubernetes/tree/master/external_loadbalancer_hap)
 
 
-#### You need:
+## You need:
 
 * Cluster Kubernetes
 * New node for HAProxy
 
-#### Instalation in node HAProxy
+### Instalation in node HAProxy
 
 Install basic sowftware
 
@@ -42,7 +42,7 @@ Enable Haproxy
 
 	systemctl enable haproxy
 
-#### Test
+### Test
 
 	python hap_manager_daemon.py start
 	python hap_manager_daemon.py stop
@@ -69,7 +69,7 @@ Modify configuration.json for hap_manager
 	
 		"kube_api": "ip_kube_api_server:port_http"
 
-#### Unit for systemd of hap_manager
+### Unit for systemd of hap_manager
 
 Copy file hap_manager.service
 
@@ -95,7 +95,7 @@ See settings
 
 &nbsp;
 
-#### Define services
+### Define services
 
 Example rc
 
@@ -159,7 +159,7 @@ Example svc with domain
 
 &nbsp;
 
-#### Not repeat the domain name
+### Not repeat the domain name
 
 You can use [manager_tools.py](https://github.com/Tedezed/Celtic-Kubernetes/blob/master/external_loadbalancer_hap/manager_tools.py) (function **constraint_domain**) for not to repeat the domain name. If return True domain name is in use.
 

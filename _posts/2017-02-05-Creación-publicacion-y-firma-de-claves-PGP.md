@@ -7,7 +7,7 @@ comments: true
 
 En esta entrada vamos a ver los pasos básicos para construir un <a href="https://es.wikipedia.org/wiki/Anillo_de_confianza">anillo de confianza</a> con PGP, certificando la identidad y firmando claves.
 
-#### Generar par de claves
+### Generar par de claves
 
 Para comenzar generamos un par de claves propio, con nuestro nombre real y correo electronico:
 ```
@@ -47,7 +47,7 @@ Tenga en cuenta que esta clave no puede ser usada para cifrar. Puede usar
 la orden "--edit-key" para crear una subclave con este propósito.
 
 
-#### Agregar una subclave para encriptación
+### Agregar una subclave para encriptación
 
 ```
 ~/.gnupg$ gpg --edit-key nuestro_correo@gmail.com
@@ -76,7 +76,7 @@ Guardamos y salimos:
 ```
 
 
-#### Exportar e importar clave sin firmar
+### Exportar e importar clave sin firmar
 
 Exportar clave a archivo:
 ```
@@ -102,7 +102,7 @@ gpg --keyserver pgp.mit.edu --recv-keys A0000000F
 ```
 
 
-#### Firma de claves PGP e importación
+### Firma de claves PGP e importación
 
 Después podemos firmar las claves de otras personas para ampliar nuestra zona de confianza, también ellos firmaran la nuestra. En primer lugar hacemos acto de notario y confirmamos la identidad de las personas con su clave y correo.
 
