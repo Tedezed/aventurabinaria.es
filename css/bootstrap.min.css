@@ -1343,7 +1343,7 @@ h1,
 
 h2,
 .h2 {
-	font-size: 30px
+	font-size: 25px
 }
 
 h3,
@@ -5020,7 +5020,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 
 .navbar-inverse .navbar-text {
-	color: #ee4444
+	color: #ee4444f
 }
 
 .navbar-inverse .navbar-nav>li>a {
