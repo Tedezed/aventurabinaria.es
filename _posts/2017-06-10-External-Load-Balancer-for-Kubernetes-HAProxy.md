@@ -8,8 +8,7 @@ comments: true
 Inspired by [service-loadbalancer](https://github.com/kubernetes/contrib/tree/master/service-loadbalancer)
 Source [Celtic-Kubernetes](https://github.com/Tedezed/Celtic-Kubernetes/tree/master/external_loadbalancer_hap)
 
-**You need:**
----------
+#### You need:
 
 * Cluster Kubernetes
 * New node for HAProxy
@@ -50,8 +49,8 @@ Enable Haproxy
 
 &nbsp;
 
-**HAP Manager**
------------
+## HAP Manager
+
 
 You need the repository [https://github.com/Tedezed/Celtic-Kubernetes.git](https://github.com/Tedezed/Celtic-Kubernetes.git)
 
@@ -69,7 +68,7 @@ Modify configuration.json for hap_manager
 	
 		"kube_api": "ip_kube_api_server:port_http"
 
-#### **Unit for systemd of hap_manager**
+#### Unit for systemd of hap_manager
 
 Copy file hap_manager.service
 
@@ -95,8 +94,7 @@ See settings
 
 &nbsp;
 
-**Define services**
----------------
+#### Define services
 
 Example rc
 
