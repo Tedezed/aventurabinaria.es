@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "External Load Balancer for Kubernetes - HAProxy"
-date: 2016-05-05 16:25:06 -0700
+date: 2017-06-10 16:25:06 -0700
 comments: true
 ---
 

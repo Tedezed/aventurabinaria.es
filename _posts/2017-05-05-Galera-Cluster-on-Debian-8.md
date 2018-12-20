@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Galera Cluster on Debian 8"
-date: 2016-05-05 16:25:06 -0700
+date: 2017-05-05 16:25:06 -0700
 comments: true
 ---
 
