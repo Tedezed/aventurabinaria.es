@@ -19,11 +19,11 @@ Para comenzar generamos un par de claves propio, con nuestro nombre real y corre
 	<li>Introducimos nuestro nombre real, correo electrónico y un comentario.</li>
 </ol>
 Una vez introducido las siguientes opciones, nos saldrá el siguiente mensaje.
-`Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
+Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
 alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
 la red y los discos) durante la generación de números primos. Esto da al
 generador de números aleatorios mayor oportunidad de recoger suficiente
-entropía.`
+entropía.
 Lo que tendremos que hacer es ejecutar tareas pesadas, como ejecutar una maquina virtual, para generar bytes aleatorios.
 
 Para terminar nos pasara la siguiente información con el ID de nuestra clave:
