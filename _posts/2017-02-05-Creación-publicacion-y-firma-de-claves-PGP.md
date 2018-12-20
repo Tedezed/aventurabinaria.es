@@ -10,7 +10,10 @@ En esta entrada vamos a ver los pasos básicos para construir un <a href="https:
 #### Generar par de claves
 
 Para comenzar generamos un par de claves propio, con nuestro nombre real y correo electronico:
-`~/.gnupg$ gpg --gen-key`
+```
+~/.gnupg$ gpg --gen-key
+
+```
 &nbsp;
 <ol>
 	<li>Seleccionamos la opción 4 solo RSA para firmar.</li>
@@ -46,10 +49,15 @@ la orden "--edit-key" para crear una subclave con este propósito.
 
 #### Agregar una subclave para encriptación
 
-`~/.gnupg$ gpg --edit-key nuestro_correo@gmail.com`
+```
+~/.gnupg$ gpg --edit-key nuestro_correo@gmail.com
+```
 
 Ejecutamos:
-`gpg: addkey`
+```
+gpg: addkey
+```
+
 &nbsp;
 <ol>
 	<li>Introducimos nuestra contraseña de la clave anterior.</li>
@@ -63,25 +71,35 @@ Guardamos y salimos:
 &nbsp;
 
 **Para ver nuestra clave:**
-`~/.gnupg$ gpg -k`
+```
+~/.gnupg$ gpg -k
+```
 
 
 #### Exportar e importar clave sin firmar
 
 Exportar clave a archivo:
-`gpg --output TclavePublica.gpg --export E0000000`
+```
+gpg --output TclavePublica.gpg --export E0000000
+```
 &nbsp;
 
 Exportar clave a http://pgp.mit.edu/
-`gpg --send-keys --keyserver pgp.mit.edu E0000000`
+```
+gpg --send-keys --keyserver pgp.mit.edu E0000000
+```
 &nbsp;
 
 Importar clave de archivo:
-`gpg --import clavePublica.gpg`
+```
+gpg --import clavePublica.gpg
+```
 &nbsp;
 
 Importar clave de http://pgp.mit.edu/
-`gpg --keyserver pgp.mit.edu --recv-keys A0000000F`
+```
+gpg --keyserver pgp.mit.edu --recv-keys A0000000F
+```
 
 
 #### Firma de claves PGP e importación
@@ -89,22 +107,34 @@ Importar clave de http://pgp.mit.edu/
 Después podemos firmar las claves de otras personas para ampliar nuestra zona de confianza, también ellos firmaran la nuestra. En primer lugar hacemos acto de notario y confirmamos la identidad de las personas con su clave y correo.
 
 Una vez echo esto firmamos su clave subida al servidor:
-`~/.gnupg$ gpg --edit-key A0000000F`
+```
+~/.gnupg$ gpg --edit-key A0000000F
+```
 
 Firmamos con:
-`gpg: sign`
+```
+gpg: sign
+```
 &nbsp;
 
 Introducimos nuestra contraseña para firmar la clave ajena.
 
 Guardamos y salimos:
-`gpg: save`
+```
+gpg: save
+```
 &nbsp;
 
 Enviamos clave firmada al servidor pgp.mit.edu con:
-`gpg --keyserver pgp.mit.edu --send-keys A0000000F`
+```
+gpg --keyserver pgp.mit.edu --send-keys A0000000F
+```
 
 Eliminar clave privada:
-`gpg --keyserver pgp.mit.edu --delete-secret-key E0000000`
+```
+gpg --keyserver pgp.mit.edu --delete-secret-key E0000000
+```
 Eliminar clave publica:
-`gpg --keyserver pgp.mit.edu --delete-keys E0000000`
+```
+gpg --keyserver pgp.mit.edu --delete-keys E0000000
+```
