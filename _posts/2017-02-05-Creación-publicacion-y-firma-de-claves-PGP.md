@@ -14,7 +14,6 @@ Para comenzar generamos un par de claves propio, con nuestro nombre real y corre
 ~/.gnupg$ gpg --gen-key
 
 ```
-&nbsp;
 <ol>
 	<li>Seleccionamos la opción 4 solo RSA para firmar.</li>
 	<li>Tamaño de 4096 bits.</li>
@@ -57,8 +56,6 @@ Ejecutamos:
 ```
 gpg: addkey
 ```
-
-&nbsp;
 <ol>
 	<li>Introducimos nuestra contraseña de la clave anterior.</li>
 	<li>Seleccionamos la opción 6 RSA solo para cifrar.</li>
@@ -68,13 +65,11 @@ gpg: addkey
 </ol>
 Guardamos y salimos:
 `gpg: save`
-&nbsp;
 
 **Para ver nuestra clave:**
 ```
 ~/.gnupg$ gpg -k
 ```
-
 
 ### Exportar e importar clave sin firmar
 
@@ -82,25 +77,21 @@ Exportar clave a archivo:
 ```
 gpg --output TclavePublica.gpg --export E0000000
 ```
-&nbsp;
 
 Exportar clave a http://pgp.mit.edu/
 ```
 gpg --send-keys --keyserver pgp.mit.edu E0000000
 ```
-&nbsp;
 
 Importar clave de archivo:
 ```
 gpg --import clavePublica.gpg
 ```
-&nbsp;
 
 Importar clave de http://pgp.mit.edu/
 ```
 gpg --keyserver pgp.mit.edu --recv-keys A0000000F
 ```
-
 
 ### Firma de claves PGP e importación
 
@@ -115,7 +106,6 @@ Firmamos con:
 ```
 gpg: sign
 ```
-&nbsp;
 
 Introducimos nuestra contraseña para firmar la clave ajena.
 
@@ -123,7 +113,6 @@ Guardamos y salimos:
 ```
 gpg: save
 ```
-&nbsp;
 
 Enviamos clave firmada al servidor pgp.mit.edu con:
 ```
