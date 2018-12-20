@@ -5,8 +5,9 @@ date: 2017-06-10 16:25:06 -0700
 comments: true
 ---
 
-Inspired by [service-loadbalancer](https://github.com/kubernetes/contrib/tree/master/service-loadbalancer)
-Source [Celtic-Kubernetes](https://github.com/Tedezed/Celtic-Kubernetes/tree/master/external_loadbalancer_hap)
+- Inspired by [service-loadbalancer](https://github.com/kubernetes/contrib/tree/master/service-loadbalancer)
+- Source [Celtic-Kubernetes](https://github.com/Tedezed/Celtic-Kubernetes/tree/master/external_loadbalancer_hap)
+
 
 #### You need:
 

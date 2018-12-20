@@ -73,7 +73,7 @@ wsrep_node_address="<strong>192.168.30.12</strong>"
 wsrep_node_name="<strong>node02</strong>"' > /etc/mysql/conf.d/galera.cnf ; chmod 770 /etc/mysql/conf.d/galera.cnf</code></pre>
 
 
-## BONUS configuration
+#### BONUS configuration
 
 <pre><code>[mysql_safe]
 log-error=/var/log/mysqld.log
