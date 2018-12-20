@@ -20,6 +20,14 @@ body {
     font-size: 1.3em;
 }
 
+.sidebar h4 {
+    color: #ee4444;
+}
+
+.sidebar h5 {
+    color: #ee4444;
+}
+
 .sidebar a {
     color: #428bca;
 }
