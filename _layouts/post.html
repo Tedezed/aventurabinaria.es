@@ -9,7 +9,7 @@
           <div class="article">
             <div class="well">
                 <h1><a href="{{ site.baseurl}}{{ page.url }}">{{ page.title }}</a></h1>
-                <h5>{{ post.date | date: "%b %-d, %Y" }}</h5>
+                <h5>{{ page.date | date: "%-d %b, %Y" }}</h5>
                 <hr/>
             {% if site.comments and page.comments %}
                 {% if site.disqus != '' %}
