@@ -1,7 +1,7 @@
 # Jekyll configuration
 
 name: Aventura Binaria
-description: Blog Github
+description: Blog Sysadmin/DevOps on Github - GNU/Linux
 
 # url is currently only used only for the RSS feed in feed.xml
 url: https://www.aventurabinaria.es
