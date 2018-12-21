@@ -61,3 +61,10 @@ body {
 .author a {
     color: #ee4444;
 }
+
+.navbar-inverse .navbar-brand {
+    color: #ffffff;
+}
+.navbar .navbar-brand {
+    color: #cacaca;
+}
