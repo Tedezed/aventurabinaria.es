@@ -30,10 +30,10 @@ echo '[mysqld]
 # MySQL Configuration
 query_cache_size=0
 binlog_format=ROW
-default-storage-engine=<strong>innodb</strong>
+default-storage-engine=```**```innodb```**```
 innodb_autoinc_lock_mode=2
 query_cache_type=0
-bind-address=<strong>0.0.0.0</strong>
+bind-address=```**```0.0.0.0```**```
 
 # Galera Provider Configuration
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
@@ -41,15 +41,15 @@ wsrep_provider=/usr/lib/galera/libgalera_smm.so
 
 # Galera Cluster Configuration
 wsrep_cluster_name="test_cluster"
-wsrep_cluster_address="<strong>gcomm://192.168.30.11:4567,192.168.30.12:4567</strong>"
+wsrep_cluster_address="```**```gcomm://192.168.30.11:4567,192.168.30.12:4567```**```"
 
 # Galera Synchronization Congifuration
 wsrep_sst_method=rsync
 #wsrep_sst_auth=user:pass
 
 # Galera Node Configuration
-wsrep_node_address="<strong>192.168.30.11</strong>"
-wsrep_node_name="<strong>node01</strong>"' > /etc/mysql/conf.d/galera.cnf ; chmod 770 /etc/mysql/conf.d/galera.cnf
+wsrep_node_address="```**```192.168.30.11```**```"
+wsrep_node_name="```**```node01```**```"' > /etc/mysql/conf.d/galera.cnf ; chmod 770 /etc/mysql/conf.d/galera.cnf
 ```
 
 For node02:
@@ -58,10 +58,10 @@ echo '[mysqld]
 # MySQL Configuration
 query_cache_size=0
 binlog_format=ROW
-default-storage-engine=<strong>innodb</strong>
+default-storage-engine=```**```innodb```**```
 innodb_autoinc_lock_mode=2
 query_cache_type=0
-bind-address=<strong>0.0.0.0</strong>
+bind-address=```**```0.0.0.0```**```
 
 # Galera Provider Configuration
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
@@ -69,15 +69,15 @@ wsrep_provider=/usr/lib/galera/libgalera_smm.so
 
 # Galera Cluster Configuration
 wsrep_cluster_name="test_cluster"
-wsrep_cluster_address="<strong>gcomm://192.168.30.11:4567,192.168.30.12:4567</strong>"
+wsrep_cluster_address="```**```gcomm://192.168.30.11:4567,192.168.30.12:4567```**```"
 
 # Galera Synchronization Congifuration
 wsrep_sst_method=rsync
 #wsrep_sst_auth=user:pass
 
 # Galera Node Configuration
-wsrep_node_address="<strong>192.168.30.12</strong>"
-wsrep_node_name="<strong>node02</strong>"' > /etc/mysql/conf.d/galera.cnf ; chmod 770 /etc/mysql/conf.d/galera.cnf
+wsrep_node_address="```**```192.168.30.12```**```"
+wsrep_node_name="```**```node02```**```"' > /etc/mysql/conf.d/galera.cnf ; chmod 770 /etc/mysql/conf.d/galera.cnf
 ```
 
 
