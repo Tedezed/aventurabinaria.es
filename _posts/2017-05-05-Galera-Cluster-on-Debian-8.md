@@ -25,7 +25,7 @@ apt-get install -y rsync galera mariadb-galera-server
 The next step is configure the file of configuration of Galera:
 
 For node01:
-<pre>
+<pre class="highlight">
 echo '[mysqld]
 # MySQL Configuration
 query_cache_size=0
@@ -53,7 +53,7 @@ wsrep_node_name="<strong>node01</strong>"' > /etc/mysql/conf.d/galera.cnf ; chmo
 </pre>
 
 For node02:
-<pre>
+<pre class="highlight">
 echo '[mysqld]
 # MySQL Configuration
 query_cache_size=0
