@@ -14,7 +14,7 @@ Configuramos entorno de producción, OpenShift:
 </ul>
 En este caso el entorno de desarrollo sera una maquina virtual en vagrant:
 Partiendo de que ya tenemos configurado vagrant, creamos el directorio de la maquina:
-<pre>mkdir lamp_openshift</pre>
+<pre class="highlight">mkdir lamp_openshift</pre>
 Ejecutamos <code>vagrant init</code> para crear el archivo Vagrantfile.
 Modificamos, configuramos una maquina vagrant con una interfaz privada de red para poder conectarnos, memoria y cpu a usar:
 
@@ -37,57 +37,57 @@ end
 ```
 
 Iniciamos la maquina con:
-<pre>vagrant up</pre>
+<pre class="highlight">vagrant up</pre>
 Entramos en la maquina con:
-<pre>vagrant ssh</pre>
+<pre class="highlight">vagrant ssh</pre>
 Una vez dentro ejecutamos:
-<pre>sudo apt-get update</pre>
+<pre class="highlight">sudo apt-get update</pre>
 Instalamos git:
-<pre>sudo apt-get install git</pre>
+<pre class="highlight">sudo apt-get install git</pre>
 Entramos en el directorio .ssh y generamos una clave publica/privada, damos un nombre, por ejemplo "vagrant":
-<pre>ssh-keygen -t rsa -C "tu correo del PaaS"</pre>
+<pre class="highlight">ssh-keygen -t rsa -C "tu correo del PaaS"</pre>
 Esto nos generara dos archivos una clave privada "vagrant" y una publica "vagrant.pub", el contenido de esta ultima tendremos que facilitarla a nuestro entorno de producción para poder conectarnos por ssh.
 Cambia los permisos de clave privada a 400 o 601 si no lo tiene por defecto.
-<pre>ssh-agent /bin/bash
+<pre class="highlight">ssh-agent /bin/bash
 ssh-add "clave privada-fichero"</pre>
 Subimos la clave publica al PaaS.
 
 Instalamos en el entorno de desarrollo las librerias nesesarias:
-<pre>apt-get install apache2 mysql-server mysql-client php5 php5-mysql php5-common php5-cli php5-gd php-pear php5-mcrypt php5-enchant php5-curl php5-xsl</pre>
+<pre class="highlight">apt-get install apache2 mysql-server mysql-client php5 php5-mysql php5-common php5-cli php5-gd php-pear php5-mcrypt php5-enchant php5-curl php5-xsl</pre>
 <strong>Para cualquier duda de los requisitos, visita:</strong>
 <a title="http://www.ximdex.org/documentacion/requisitos_es.html" href="http://www.ximdex.org/documentacion/requisitos_es.html">http://www.ximdex.org/documentacion/requisitos_es.html</a>
 
 Descargamos Ximdex:
-<pre>~$ wget https://codeload.github.com/XIMDEX/ximdex/tar.gz/v3.5</pre>
+<pre class="highlight">~$ wget https://codeload.github.com/XIMDEX/ximdex/tar.gz/v3.5</pre>
 Descomprimimos Ximdex:
-<pre>tar zxf v3.5</pre>
+<pre class="highlight">tar zxf v3.5</pre>
 Esto creara una directorio llamado ximdex-3.5 y Clonamos el directorio del entorno de producción:
-<pre>git clone ssh://************************@ximdex-tedezed.rhcloud.com/~/git/ximdex.git/</pre>
+<pre class="highlight">git clone ssh://************************@ximdex-tedezed.rhcloud.com/~/git/ximdex.git/</pre>
 Esto creara una directorio llamado ximdex, que es nuestro repositorio. Entramos dentro de ximdex-3.5 y ejecutamos:
-<pre>mv * /var/www/ximdex</pre>
+<pre class="highlight">mv * /var/www/ximdex</pre>
 Esto moverá Ximdex al repositorio del PaaS en local, despues cambiamos el propietario para apache2:
-<pre>sudo chown -R www-data:www-data ximdex/</pre>
+<pre class="highlight">sudo chown -R www-data:www-data ximdex/</pre>
 Reiniciamos apache2:
-<pre>/etc/init.d/apache2 restart</pre>
+<pre class="highlight">/etc/init.d/apache2 restart</pre>
 Es importante subir aquí Ximdex al PaaS ya que el "CHECK CONFIGURATION" bajo mi experiencia solo se ejecuta la primera vez, después arranca siempre donde lo dejamos por ultima vez la configuración, por lo cual antes de seguir subimos ximdex.
-<pre>git add *
+<pre class="highlight">git add *
 git commit -m "tu comentario"
 git push</pre>
 Una vez subido probamos que todo este en orden en Openshift, si hace falta alguna librería solo tendremos que instalarla. Dado que el despliegue se hace desde el entorno de desarrollo hacia el entorno de producción en el servidor no configuraremos nada, todo se configurara en el entorno de desarrollo y después una vez que funcione correctamente en local, se subirá.
 
 Entramos en MySQL en local:
-<pre>mysql -u "Nuestro usuario Root" -p</pre>
+<pre class="highlight">mysql -u "Nuestro usuario Root" -p</pre>
 CMS Ximdex nos pedirá la cuenta de root de mysql y el se encargaría de todo, aunque es lo mas cómodo no es lo correcto ya que podríamos comprometer la seguridad del sistema, creamos un usuario con su db y le asignamos permisos.
 
 Creamos la base de datos:
-<pre>create database TU_DB;
+<pre class="highlight">create database TU_DB;
 use TU_DB;</pre>
 Creamos el usuario:
-<pre>create user TU_USUARIO;</pre>
+<pre class="highlight">create user TU_USUARIO;</pre>
 Asignamos permisos:
-<pre>GRANT ALL ON nombre_db.* TO usuario_db IDENTIFIED BY 'contraseña';</pre>
+<pre class="highlight">GRANT ALL ON nombre_db.* TO usuario_db IDENTIFIED BY 'contraseña';</pre>
 Salimos de MySQL:
-<pre>exit</pre>
+<pre class="highlight">exit</pre>
 Entramos desde el navegador a ximdex para configurarlo:
 http://192.168.40.50/ximdex/
 
@@ -95,7 +95,7 @@ Aquí lo único que tendremos que hacer es configurar los parámetros de la db, 
 Instalamos los modulos Xtags, Xtour, Xnews. Esto puede tardar unos minutos, ya que nuestra maquina vagrant no dispone de mucha potencia.
 
 Si todo a salido bien nos mostrara el siguiente mensaje:
-<pre>Installation finished!////////////////////////////////////////////////////////////
+<pre class="highlight">Installation finished!////////////////////////////////////////////////////////////
 You've succesfully installed Ximdex CMS on your server.
 Log in and discover a different way to manage your content and data.
 
@@ -117,7 +117,7 @@ http://translate.google.com/translate?sl=en&amp;tl=es&amp;u=https://github.com/X
 
 Ya tenemos Ximdex funcionando en local, es hora de importar el contenido configurado de nuestro entorno de desarrollo, cms ximdex y db mysql.
 En la maquina vagrant, exportamos la db de ximdex en MySql al archivo db_ximdex.sql.
-<pre>mysqldump -u usuario_db -p nombre_db &gt; db_ximdex.sql</pre>
+<pre class="highlight">mysqldump -u usuario_db -p nombre_db &gt; db_ximdex.sql</pre>
 Estructura de la DB MySql:
 
 ```
@@ -250,7 +250,7 @@ Realizamos un git push.
 Nos conectamos por ssh y para cambiar los parametros de la db MySql del PaaS, para ello en primer lugar importamos la db.
 
 Cambiamos la configuración de la db de ximdex:
-<pre>nano /var/www/myximdex/conf/install-params.conf.php</pre>
+<pre class="highlight">nano /var/www/myximdex/conf/install-params.conf.php</pre>
 ```
 /* DATABASE_PARAMS (do not remove this comment, please) */
 $DBHOST = "localhost";
@@ -264,13 +264,13 @@ $XIMDEX_ROOT_PATH = "/var/www/myximdex";;
 
 Tenemos que actualizar la db con los parametros nuevos del PaaS, podemos acerlo de dos oformas:
 Importamos la DB:
-<pre>cd app-root/repo/
+<pre class="highlight">cd app-root/repo/
 mysql -u usuario_mysql nombre_bbdd -p &lt; ruta_fichero_importación.sql</pre>
 <ul>
 	<li>Utilizar estas dos lineas dentro de MySql:</li>
 </ul>
-<pre><code>UPDATE Config SET ConfigValue='http://ximdex-tedezed.rhcloud.com/' WHERE ConfigKEY='UrlRoot';</code></pre>
-<pre>UPDATE Config SET ConfigValue='/var/lib/openshift/***************/app-root/repo/' WHERE ConfigKEY='AppRoot';</pre>
+<pre class="highlight"><code>UPDATE Config SET ConfigValue='http://ximdex-tedezed.rhcloud.com/' WHERE ConfigKEY='UrlRoot';</code></pre>
+<pre class="highlight">UPDATE Config SET ConfigValue='/var/lib/openshift/***************/app-root/repo/' WHERE ConfigKEY='AppRoot';</pre>
 <ul>
 	<li>Utilizar el siguiente script en python, antes de importar la db:</li>
 </ul>
@@ -295,7 +295,7 @@ archi2.close()
 ```
 
 A este script le pasamos como parametro db_ximdex.sql, se ejecutaria de la siguiente forma:
-<pre>$ python nombre_script.py db_ximdex.sql
+<pre class="highlight">$ python nombre_script.py db_ximdex.sql
 192.168.40.50/ximdex
 </pre>
 por: `ximdex-tedezed.rhcloud.com`
@@ -304,7 +304,7 @@ Lo ejecutamos de nuevo y sustituimos: `/var/www/ximdex`
 por: `/var/lib/openshift/***************/app-root/repo/`
 
 Por ultimo importas la db:
-<pre>cd app-root/repo/
+<pre class="highlight">cd app-root/repo/
 mysql -u usuario_mysql nombre_bbdd -p &lt; ruta_fichero_importación.sql</pre>
 
 Ya estaría listo el despliegue de Ximdex, las publicaciones por defecto estarían en: http://URL/data/previos/
