@@ -14,8 +14,10 @@ Scripts: (https://github.com/Tedezed/LDAP/tree/master/Poblar%20LDAP%20con%20JSON
 - **humans.js** Usuarios que vamos a añadir a nuestro LDAP.
 - **public_key.sh** Script para consultar la clave publica del usuario.
 
-Comenzamos añadiendo el esquema openssh-lpk, para poder incluir claves públicas ssh en un directorio LDAP:
-```nano openssh-lpk.ldif```
+Comenzamos añadiendo el esquema openssh-lpk, para poder incluir claves públicas ssh en un directorio LDAP: 
+```
+nano openssh-lpk.ldif
+```
 ```
 dn: cn=openssh-lpk,cn=schema,cn=config
 objectClass: olcSchemaConfig
@@ -29,7 +31,9 @@ olcObjectClasses: ( 1.3.6.1.4.1.24552.500.1.1.2.0 NAME 'ldapPublicKey' SUP top A
   MAY ( sshPublicKey $ uid )
   )
 ```
-```sudo ldapadd -Y EXTERNAL -H ldapi:/// -f openssh-lpk.ldif```
+```
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f openssh-lpk.ldif
+```
 
 Creamos un virtualenv:
 ```
@@ -39,23 +43,33 @@ cd ldap
 ```
 
 Activamos el virtualenv anterior:
-```source bin/activate```
+```
+source bin/activate
+```
 
 Instalamos python-ldap:
-```pip install python-ldap```
+```
+pip install python-ldap
+```
 
 Una vez echo esto podemos ejecutar **Poblar_LDAP.py** para introducir los usuarios del fichero humans.js.
 
 Instalamos libnss-ldapd para la autenticación de usuario en LDAP:
-```apt-get install libnss-ldapd ldap-utils```
+```
+apt-get install libnss-ldapd ldap-utils
+```
 
 Configuración durante la instalación:
 
 Conexión:
-```ldap://localhost:389/```
+```
+ldap://localhost:389/
+```
 
 Base de nuestro árbol:
-```dc=example,dc=org```
+```
+dc=example,dc=org
+```
 
 Configuración de NSS con LDAP:
 ```
@@ -64,11 +78,15 @@ group
 ```
 
 Configuramos /etc/pam.d/common-session
-```session [success=ok default=ignore] pam_ldap.so minimum_uid=2000```
+```
+session [success=ok default=ignore] pam_ldap.so minimum_uid=2000
+```
 
 
 Configuramos mkhomedir en pam-configs:
-```nano /usr/share/pam-configs/mkhomedir```
+```
+nano /usr/share/pam-configs/mkhomedir
+```
 ```
 Name: Create home directory during login
 Default: yes
@@ -79,10 +97,14 @@ Session:
 ```
 
 Actualizamos pam con:
-```sudo pam-auth-update```
+```
+sudo pam-auth-update
+```
 
 Creamos nuestro script para obtener la clave publica del usuario del ldap:
-```nano /usr/bin/public_key.sh```
+```
+nano /usr/bin/public_key.sh
+```
 ```
 #!/bin/sh
 ip_ldap="localhost"
@@ -99,7 +121,9 @@ Comprobamos su funcionamiento de script:
 ssh-rsa ssh-rsa Clave_RSA_Publica
 ```
 Editamos y especificamos la ruta del script:
-```nano /etc/ssh/sshd_config```
+```
+nano /etc/ssh/sshd_config
+```
 ```
 # LDAP SSH
 AuthorizedKeysCommand /usr/bin/public_key.sh
@@ -107,4 +131,6 @@ AuthorizedKeysCommandUser root
 ```
 
 Reiniciamos:
-```service sshd restart```
+```
+service sshd restart
+```
