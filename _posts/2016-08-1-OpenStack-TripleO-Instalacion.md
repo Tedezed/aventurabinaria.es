@@ -13,7 +13,9 @@ Creamos el siguiente usuario:
     passwd stack
 
 Configuración de sudo:
-`nano /etc/sudoers```
+```
+nano /etc/sudoers
+```
 
     stack ALL=(root) NOPASSWD:ALL
     centos ALL=(root) NOPASSWD:ALL
