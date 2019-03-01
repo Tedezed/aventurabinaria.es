@@ -13,7 +13,7 @@ Creamos el siguiente usuario:
     passwd stack
 
 Configuración de sudo:
-`nano /etc/sudoers`
+`nano /etc/sudoers```
 
     stack ALL=(root) NOPASSWD:ALL
     centos ALL=(root) NOPASSWD:ALL
@@ -31,15 +31,21 @@ Cambiamos el nombre de la maquina:
     sudo hostnamectl set-hostname undercloud.example.com
     sudo hostnamectl set-hostname --transient undercloud.example.com
 
-`sudo nano /etc/hosts`
+```
+sudo nano /etc/hosts
+```
 
     127.0.0.1         undercloud.example.com
 
-`sudo systemctl restart network`
+```
+sudo systemctl restart network
+```
 
 Comprobamos:
 
-`[stack@localhost ~]$ hostname`
+```
+[stack@localhost ~]$ hostname
+```
 
     undercloud.example.com
 
@@ -66,7 +72,9 @@ Copiamos la configuración de ejemplo de undercloud:
 
 Editamos la configuración:
 
-`nano undercloud.conf`
+```
+nano undercloud.conf
+```
 
     [DEFAULT]
     local_ip = 192.168.0.10/24
@@ -82,12 +90,14 @@ Editamos la configuración:
     [auth]
 
 Nos aseguramos de añadir un buen DNS:
-
-`echo nameserver 8.8.8.8 >> /etc/resolv.conf`
+```
+echo nameserver 8.8.8.8 >> /etc/resolv.conf
+```
 
 Instalamos undercloud:
-
-`openstack undercloud install`
+```
+openstack undercloud install
+```
 
 Este bug, que reporte al launchpad esta actualmente solucionado.
 
@@ -106,7 +116,9 @@ Este bug, que reporte al launchpad esta actualmente solucionado.
 
 **SOLUCION:**
 
-`nano /usr/lib/python2.7/site-packages/instack_undercloud/undercloud.py`
+```
+nano /usr/lib/python2.7/site-packages/instack_undercloud/undercloud.py
+```
 
     line = process.stdout.readline().decode('utf-8')
 
@@ -139,7 +151,9 @@ Finalizado del comando
 
 
 **ERROR LOOP al apagar:** https://bugzilla.redhat.com/show_bug.cgi?id=1178497
-`rm: cannot remove /lib/drauct/hooks/shutdown/30-dm-shutdown.sh: Read-only filesystem`
+```
+rm: cannot remove /lib/drauct/hooks/shutdown/30-dm-shutdown.sh: Read-only filesystem
+```
 
 **SOLUCIÓN:**
 
@@ -163,7 +177,9 @@ Añadir:
 
 Editamos:
 
-`sudo nano /usr/lib/dracut/modules.d/99shutdown/module-setup.sh`
+```
+sudo nano /usr/lib/dracut/modules.d/99shutdown/module-setup.sh
+```
 
 Buscar:
 
@@ -197,25 +213,29 @@ Creación de imagenes para el opvercloud:
         
         openstack overcloud image build --all
 
-    **ERROR** `Required file "ironic-python-agent.initramfs" does not exist.`
+    **ERROR** 
+    <pre class="highlight">
+    Required file "ironic-python-agent.initramfs" does not exist.
+    </pre>
 
     **SOLUCIÓN**
 
     La intuición me dice que los dos ficheros son el mismo (Comparando .kernel de fedora)
-        ```
-        [stack@undercloud images2]$ ls -hl *kernel
+        <pre class="highlight">
+        [stack@undercloud images2]$ ls -hl *kernel*
         -rw-r--r--. 1 stack stack 5,0M mar 16 08:24 deploy-ramdisk-ironic.kernel
         -rw-r--r--. 1 stack stack 5,0M mar 16 08:25 ironic-python-agent.kernel
-        [stack@undercloud images2]$ diff *kernel
+        [stack@undercloud images2]$ diff *kernel*
         cp deploy-ramdisk-ironic.initramfs ironic-python-agent.initramfs
         cp deploy-ramdisk-ironic.kernel ironic-python-agent.kernel
-        ```
+        </pre>
 
 * **Opcion 2:**
 
     Bajar las imagenes de fedora:
-
-    `wget -r -nd -np --reject "index.html*" https://repos.fedorapeople.org/repos/openstack-m/rdo-images-centos-liberty-opnfv/`
+    <pre class="highlight">
+    wget -r -nd -np --reject "index.html\*" https://repos.fedorapeople.org/repos/openstack-m/rdo-images-centos-liberty-opnfv/
+    </pre>
 
 Subimos las imagenes al undercloud con:
 
@@ -248,8 +268,9 @@ Podremos ver las subredes con:
     +--------------------------------------+------+----------------+--------------------------------------------------+
 
 Actualizamos la red con el dns:
-
-`neutron subnet-update 791d86a8-e607-4f67-9c85-b5228f599910 --dns-nameserver 192.168.0.81`
+```
+neutron subnet-update 791d86a8-e607-4f67-9c85-b5228f599910 --dns-nameserver 192.168.0.81
+```
 
     [stack@undercloud ~]$ neutron subnet-show 791d86a8-e607-4f67-9c85-b5228f599910
     +-------------------+------------------------------------------------------------------+
@@ -272,7 +293,9 @@ Actualizamos la red con el dns:
     +-------------------+------------------------------------------------------------------+
 
 En mi caso a los clientes no les asigna el DNS, podemos introducirlo manualmente:
-`echo server=8.8.8.8 >> /etc/ironic-inspector/dnsmasq.conf`
+```
+echo server=8.8.8.8 >> /etc/ironic-inspector/dnsmasq.conf
+```
 
 **BONUS** - Eliminar las maquinas
     
@@ -289,8 +312,9 @@ Configuramos el acceso:
     ResultActive=yes
 
 Añadimso la clave publica para la conexión ssh:
-`nano .ssh/authorized_keys`
-
+```
+nano .ssh/authorized_keys
+```
 
 
 Anfitrion Undercloud
@@ -304,7 +328,9 @@ Anfitrion Undercloud
     done
     EOF
 
-`chmod a+x /usr/bin/bootif-fix`
+```
+chmod a+x /usr/bin/bootif-fix
+```
 
     cat << EOF > /usr/lib/systemd/system/bootif-fix.service
     [Unit]
@@ -318,7 +344,9 @@ Anfitrion Undercloud
     WantedBy=multi-user.target
     EOF 
 
-`chmod a+x /usr/lib/systemd/system/bootif-fix.service`
+```
+chmod a+x /usr/lib/systemd/system/bootif-fix.service
+```
 
     systemctl daemon-reload
     systemctl enable bootif-fix
