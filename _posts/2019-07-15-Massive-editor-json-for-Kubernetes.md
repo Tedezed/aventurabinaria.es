@@ -11,7 +11,7 @@ Code: [https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5](https:/
 
 (Kmae: It can be very dangerous if it is not used with caution, you can create backup of your cluster in json using: [https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup](https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup))
 
-<img src="https://www.aventurabinaria.es/images/posts/tty-kmae.gif" width="90%" alt="Gif tty" />
+<img src="https://www.aventurabinaria.es/images/posts/tty-kmae.gif" width="99%" alt="Gif tty" />
 
 To test it you can create an environment with several nginx with the following for:
 ```
