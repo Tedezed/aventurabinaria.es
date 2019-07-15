@@ -14,7 +14,7 @@ Code: [https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5](https:/
 (Kmae: It can be very dangerous if it is not used with caution, you can create backup of your cluster in json using: [https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup](https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup))
 
 <img src="https://www.aventurabinaria.es/images/posts/tty-kmae.gif" width="99%" alt="Gif tty" />
-
+&nbsp;
 
 To test it you can create an environment with several nginx with the following for:
 ```
@@ -23,6 +23,7 @@ for i in $(seq 1 6); do
   kubectl create deploy nginx-$i -n nginx-$i --image=nginx;
 done
 ```
+&nbsp;
 
 We will use kselect to test your filters in the first place:
 
@@ -34,7 +35,7 @@ kselect (ENTITY) (GREP_EXTERNAL_KUBECTL) (GREP_INTERNAL_JSON) (JSON_PATH) (NAMES
 ```
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 1' .spec.strategy.rollingUpdate --all-namespaces
 ```
-
+&nbsp;
 
 In the second place, modify the spec.strategy.rollingUpdate of the three deployments at the same command:
 
@@ -46,7 +47,7 @@ kmae (ENTITY) (GREP_EXTERNAL_KUBECTL) (GREP_INTERNAL_JSON) (JSON_PATH_TO_UPDATE)
 ```
 kmae deploy "(nginx-[1-3])" '"observedGeneration": 1' '{"spec":{"strategy":{"rollingUpdate":{"maxUnavailable": "50%", "maxSurge": "45%"}}}}' --all-namespaces
 ```
-
+&nbsp;
 
 We tested the previous kselect that does not return anything because the generation number changed:
 ```
@@ -57,7 +58,7 @@ If it works if we change the generation:
 ```
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 2' .spec.strategy.rollingUpdate --all-namespaces
 ```
-
+&nbsp;
 
 One last test with modification of replicas:
 ```
@@ -65,7 +66,7 @@ kselect deploy "(nginx-[1-3])" '"observedGeneration": 2' .spec.replicas --all-na
 kmae deploy "(nginx-[1-3])" '"observedGeneration": 2' '{"spec":{"replicas":2}}' --all-namespaces
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 3' .spec.replicas --all-namespaces
 ```
-
+&nbsp;
 
 Clean enviroment:
 ```
