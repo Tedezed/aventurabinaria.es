@@ -11,9 +11,7 @@ The idea is to interact with Kubernetes to be able to quickly edit a large amoun
 
 Code: [https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5](https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5)
 
-(Kmae: It can be very dangerous if it is not used with caution, you can create backup of your cluster in json using: [https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup](https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup))
-
-<img src="https://www.aventurabinaria.es/images/posts/tty-kmae.gif" width="99%" alt="Gif tty" />
+(**Kmae**: It can be very dangerous if it is not used with caution, you can create backup of your cluster in json using: [https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup](https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup))
 &nbsp;
 
 To test it you can create an environment with several nginx with the following for:
@@ -23,6 +21,8 @@ for i in $(seq 1 6); do
   kubectl create deploy nginx-$i -n nginx-$i --image=nginx;
 done
 ```
+&nbsp;
+<img src="https://www.aventurabinaria.es/images/posts/tty-kmae.gif" width="99%" alt="Gif tty" />
 &nbsp;
 
 We will use kselect to test your filters in the first place:
