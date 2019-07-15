@@ -6,12 +6,15 @@ comments: true
 ---
 
 In this post we will see the use of a custom bash (kmae and kselect) function that can save you time in your Kuberentes environments.
+
 The idea is to interact with Kubernetes to be able to quickly edit a large amount of resources using grep filters; external (kubectl get pod) and internal (kubectl get pod -o json).
+
 Code: [https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5](https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5)
 
 (Kmae: It can be very dangerous if it is not used with caution, you can create backup of your cluster in json using: [https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup](https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup))
 
 <img src="https://www.aventurabinaria.es/images/posts/tty-kmae.gif" width="99%" alt="Gif tty" />
+
 
 To test it you can create an environment with several nginx with the following for:
 ```
@@ -32,6 +35,7 @@ kselect (ENTITY) (GREP_EXTERNAL_KUBECTL) (GREP_INTERNAL_JSON) (JSON_PATH) (NAMES
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 1' .spec.strategy.rollingUpdate --all-namespaces
 ```
 
+
 In the second place, modify the spec.strategy.rollingUpdate of the three deployments at the same command:
 
 **Format:**
@@ -43,6 +47,7 @@ kmae (ENTITY) (GREP_EXTERNAL_KUBECTL) (GREP_INTERNAL_JSON) (JSON_PATH_TO_UPDATE)
 kmae deploy "(nginx-[1-3])" '"observedGeneration": 1' '{"spec":{"strategy":{"rollingUpdate":{"maxUnavailable": "50%", "maxSurge": "45%"}}}}' --all-namespaces
 ```
 
+
 We tested the previous kselect that does not return anything because the generation number changed:
 ```
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 1' .spec.strategy.rollingUpdate --all-namespaces
@@ -53,12 +58,14 @@ If it works if we change the generation:
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 2' .spec.strategy.rollingUpdate --all-namespaces
 ```
 
+
 One last test with modification of replicas:
 ```
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 2' .spec.replicas --all-namespaces
 kmae deploy "(nginx-[1-3])" '"observedGeneration": 2' '{"spec":{"replicas":2}}' --all-namespaces
 kselect deploy "(nginx-[1-3])" '"observedGeneration": 3' .spec.replicas --all-namespaces
 ```
+
 
 Clean enviroment:
 ```
