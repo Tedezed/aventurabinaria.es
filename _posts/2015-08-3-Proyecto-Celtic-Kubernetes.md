@@ -11,4 +11,4 @@ comments: true
 
 Estructura del Cluster:
 
-<img src="https://raw.githubusercontent.com/Tedezed/Celtic-Kubernetes/master/HTML/Imagenes/topo2.jpg" alt="Celtic Kubernetes" />
+<img src="https://raw.githubusercontent.com/Tedezed/Celtic-Kubernetes/master/HTML/Imagenes/topo2.jpg" alt="Celtic Kubernetes" height="20%" width="20%" />
