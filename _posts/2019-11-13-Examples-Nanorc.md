@@ -8,8 +8,8 @@ comments: true
 ## Syntax Files
 
 Paths nanorc syntax files
-`sudo nano /usr/share/nano/markdown.nanorc`
-`sudo nano /usr/local/share/nano/markdown.nanorc`
+- `sudo nano /usr/share/nano/markdown.nanorc`
+- `sudo nano /usr/local/share/nano/markdown.nanorc`
 
 Example sysntax for Markdown
 ```
