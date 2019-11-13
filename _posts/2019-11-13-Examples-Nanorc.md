@@ -7,7 +7,7 @@ comments: true
 
 ## Syntax Files
 
-<img src="/images/posts/nanorc.png" width="40%" alt="nanorc" />
+<img src="/images/nanorc.png" width="80%" alt="nanorc" />
 
 Paths nanorc syntax files
 - `sudo nano /usr/share/nano/markdown.nanorc`
