@@ -7,7 +7,7 @@ comments: true
 
 ## Syntax Files
 
-<img src="https://www.aventurabinaria.es/images/posts/nanorc.png" width="99%" alt="nanorc" />
+<img src="/images/posts/nanorc.png" width="40%" alt="nanorc" />
 
 Paths nanorc syntax files
 - `sudo nano /usr/share/nano/markdown.nanorc`
