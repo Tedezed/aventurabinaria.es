@@ -17,7 +17,7 @@ github: 'Tedezed'
 gitlab: ''
 
 # Set this to your UA-# value, or '' to disable the block completely
-gaaccount: ''
+gaaccount: 'UA-153422845-1'
 
 # The 'comments' setting enables comments. You'll need to select either
 # disqus or isso below to choose a comment system. Individual posts can
@@ -25,10 +25,11 @@ gaaccount: ''
 comments: true
 
 # Set this to your public isso URL to enable comments via isso. Set to '' to disable isso.
+#isso: 'https://www.aventurabinaria.es'
 isso: ''
 
 # Set this to your disqus shortname to enable comments via disqus. Set to '' to disable disqus.
-disqus: ''
+disqus: 'www-aventurabinaria-es'
 
 permalink: /:year/:month/:title
 paginate: 3
