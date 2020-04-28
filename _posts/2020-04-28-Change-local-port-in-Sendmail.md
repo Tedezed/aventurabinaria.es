@@ -43,5 +43,7 @@ sendmail- 31492     root    5u  IPv4 10544620      0t0  TCP 127.0.0.1:587 (LISTE
 ```
 
 With this we can already send the email with the change local port:
-`echo "Test Email" | mail -s "Subject Here" admin@example.com`
+```
+echo "Test Email" | mail -s "Subject Here" admin@example.com
+```
 
