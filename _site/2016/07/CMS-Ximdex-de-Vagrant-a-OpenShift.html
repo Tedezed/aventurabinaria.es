@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aventura Binaria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/theme_v2.css" rel="stylesheet" type="text/css">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="https://www.aventurabinaria.es/images/favicon-32x32.png"/>
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Aventura Binaria</a>
+              </div>
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <!--<li class="active"><a href="/">Home</a></li>-->
+                    <li class="active visible-xs-block"><a href="/links.html">Links</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/archive.html">Archive</a></li>
+                    <!--<li class="active"><a href="/about.html">About</a></li>-->
+                    <!--<li class="active"><a href="/space.html">Space</a></li>-->
+                    
+                    
+                      <li class="nav-item"><a class="nav-link" href="https://github.com/Tedezed">Github</a></li>
+                    
+                    <li class="nav-item"><a class="nav-link" href="/feed.xml">RSS</a></li>
+                </ul>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 hidden-xs">
+            <div class="sidebar well">
+Blog Sysadmin/DevOps on Github - GNU/Linux
+</div>
+
+<div class="sidebar well">
+<h4>Links</h4>
+<ul>
+  <li><a href="http://tedezed.github.io/Celtic-Kubernetes/HTML">Celtic Kubernetes</a></li>
+  <li><a href="https://twitter.com/zerrotajo">Twitter</a></li>
+  <li><a href="https://www.thingiverse.com/tedezed/designs">Thingiverse</a></li>
+  <li><a href="mailto:juanmanuel.torres@aventurabinaria.es">Mail</a></li>
+</ul>
+
+</div>
+
+<div class="sidebar well">
+    <h4>Recent Posts</h4>
+    <ul>
+        
+          <li><a href="/2020/12/Install-amd-drivers-linux-debian-ubuntu">Install AMD drivers for Linux (Debian/Ubuntu)</a></li>
+        
+          <li><a href="/2020/04/Change-local-port-in-Sendmail">Change local port in Sendmail</a></li>
+        
+          <li><a href="/2019/10/Examples-Nanorc">Examples Nanorc</a></li>
+        
+          <li><a href="/2019/07/Massive-editor-json-for-Kubernetes">Massive editor json for Kubernetes</a></li>
+        
+          <li><a href="/2019/03/Ingress-TCP-UDP">Ingress TCP/UDP</a></li>
+        
+          <li><a href="/2019/03/Delete-namespace-in-perpetual-Terminating-state">Delete namespace in perpetual Terminating state</a></li>
+        
+          <li><a href="/2017/06/External-Load-Balancer-for-Kubernetes-HAProxy">External Load Balancer for Kubernetes - HAProxy</a></li>
+        
+          <li><a href="/2017/05/Galera-Cluster-on-Debian-8">Galera Cluster on Debian 8</a></li>
+        
+          <li><a href="/2017/02/Creaci%C3%B3n-publicacion-y-firma-de-claves-PGP">Creación, publicación y firma de claves PGP</a></li>
+        
+          <li><a href="/2016/08/Poblar-LDAP-desde-fichero-JSON-PAM-y-SSH-con-Clave-publica">Poblar LDAP desde fichero JSON [PAM y SSH con Clave publica]</a></li>
+        
+          <li><a href="/2016/08/Pantalla-LCD-16-2-y-PCF8574-(I2C)-para-Arduino">Pantalla LCD 16×2 y PCF8574 (I2C) para Arduino</a></li>
+        
+          <li><a href="/2016/08/Pantalla-LCD-16x2-y-PCF8574-(I2C)-para-Raspberry-pi">Pantalla LCD 16x2 y PCF8574 (I2C) para Raspberry pi</a></li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="article">
+            <div class="well">
+                <h1><a href="/2016/07/CMS-Ximdex-de-Vagrant-a-OpenShift">CMS Ximdex de Vagrant a OpenShift</a></h1>
+                <h5>7 Jul, 2016</h5>
+                <hr/>
+            
+                
+                <p class="author"><a href="#disqus_thread" data-disqus-identifier="2016-07-cms-ximdex-de-vagrant-a-openshift">Comments</a></p>
+                
+            
+            <div class="post-content">
+            <p><strong>Desplegando Ximdex en un entorno de desarrollo para después ser montado en un entorno de producción.</strong></p>
+
+<p>Configuramos entorno de producción, OpenShift:</p>
+<ul>
+	<li>Seleccionamos PHP 5.4</li>
+	<li>Añadimos cartridge de MySQL 5.5</li>
+</ul>
+<p>En este caso el entorno de desarrollo sera una maquina virtual en vagrant:
+Partiendo de que ya tenemos configurado vagrant, creamos el directorio de la maquina:</p>
+<pre class="highlight">mkdir lamp_openshift</pre>
+<p>Ejecutamos <code>vagrant init</code> para crear el archivo Vagrantfile.
+Modificamos, configuramos una maquina vagrant con una interfaz privada de red para poder conectarnos, memoria y cpu a usar:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+#Box de Vagrant
+config.vm.box = "precise64"
+#Red privada para hacer pruebas de CMS
+config.vm.network "private_network", ip: "192.168.40.50"
+config.vm.provider :virtualbox do |vb|
+vb.customize ["modifyvm", :id, "--memory", "1024"]
+vb.customize ["modifyvm", :id, "--cpus" , 2]
+end
+end
+</code></pre></div></div>
+
+<p>Iniciamos la maquina con:</p>
+<pre class="highlight">vagrant up</pre>
+<p>Entramos en la maquina con:</p>
+<pre class="highlight">vagrant ssh</pre>
+<p>Una vez dentro ejecutamos:</p>
+<pre class="highlight">sudo apt-get update</pre>
+<p>Instalamos git:</p>
+<pre class="highlight">sudo apt-get install git</pre>
+<p>Entramos en el directorio .ssh y generamos una clave publica/privada, damos un nombre, por ejemplo “vagrant”:</p>
+<pre class="highlight">ssh-keygen -t rsa -C "tu correo del PaaS"</pre>
+<p>Esto nos generara dos archivos una clave privada “vagrant” y una publica “vagrant.pub”, el contenido de esta ultima tendremos que facilitarla a nuestro entorno de producción para poder conectarnos por ssh.
+Cambia los permisos de clave privada a 400 o 601 si no lo tiene por defecto.</p>
+<pre class="highlight">ssh-agent /bin/bash
+ssh-add "clave privada-fichero"</pre>
+<p>Subimos la clave publica al PaaS.</p>
+
+<p>Instalamos en el entorno de desarrollo las librerias nesesarias:</p>
+<pre class="highlight">apt-get install apache2 mysql-server mysql-client php5 php5-mysql php5-common php5-cli php5-gd php-pear php5-mcrypt php5-enchant php5-curl php5-xsl</pre>
+<p><strong>Para cualquier duda de los requisitos, visita:</strong>
+<a title="http://www.ximdex.org/documentacion/requisitos_es.html" href="http://www.ximdex.org/documentacion/requisitos_es.html">http://www.ximdex.org/documentacion/requisitos_es.html</a></p>
+
+<p>Descargamos Ximdex:</p>
+<pre class="highlight">~$ wget https://codeload.github.com/XIMDEX/ximdex/tar.gz/v3.5</pre>
+<p>Descomprimimos Ximdex:</p>
+<pre class="highlight">tar zxf v3.5</pre>
+<p>Esto creara una directorio llamado ximdex-3.5 y Clonamos el directorio del entorno de producción:</p>
+<pre class="highlight">git clone ssh://************************@ximdex-tedezed.rhcloud.com/~/git/ximdex.git/</pre>
+<p>Esto creara una directorio llamado ximdex, que es nuestro repositorio. Entramos dentro de ximdex-3.5 y ejecutamos:</p>
+<pre class="highlight">mv * /var/www/ximdex</pre>
+<p>Esto moverá Ximdex al repositorio del PaaS en local, despues cambiamos el propietario para apache2:</p>
+<pre class="highlight">sudo chown -R www-data:www-data ximdex/</pre>
+<p>Reiniciamos apache2:</p>
+<pre class="highlight">/etc/init.d/apache2 restart</pre>
+<p>Es importante subir aquí Ximdex al PaaS ya que el “CHECK CONFIGURATION” bajo mi experiencia solo se ejecuta la primera vez, después arranca siempre donde lo dejamos por ultima vez la configuración, por lo cual antes de seguir subimos ximdex.</p>
+<pre class="highlight">git add *
+git commit -m "tu comentario"
+git push</pre>
+<p>Una vez subido probamos que todo este en orden en Openshift, si hace falta alguna librería solo tendremos que instalarla. Dado que el despliegue se hace desde el entorno de desarrollo hacia el entorno de producción en el servidor no configuraremos nada, todo se configurara en el entorno de desarrollo y después una vez que funcione correctamente en local, se subirá.</p>
+
+<p>Entramos en MySQL en local:</p>
+<pre class="highlight">mysql -u "Nuestro usuario Root" -p</pre>
+<p>CMS Ximdex nos pedirá la cuenta de root de mysql y el se encargaría de todo, aunque es lo mas cómodo no es lo correcto ya que podríamos comprometer la seguridad del sistema, creamos un usuario con su db y le asignamos permisos.</p>
+
+<p>Creamos la base de datos:</p>
+<pre class="highlight">create database TU_DB;
+use TU_DB;</pre>
+<p>Creamos el usuario:</p>
+<pre class="highlight">create user TU_USUARIO;</pre>
+<p>Asignamos permisos:</p>
+<pre class="highlight">GRANT ALL ON nombre_db.* TO usuario_db IDENTIFIED BY 'contraseña';</pre>
+<p>Salimos de MySQL:</p>
+<pre class="highlight">exit</pre>
+<p>Entramos desde el navegador a ximdex para configurarlo:
+http://192.168.40.50/ximdex/</p>
+
+<p>Aquí lo único que tendremos que hacer es configurar los parámetros de la db, como usuario, nombre db y contraseña, creamos un nuevo usuario con el que después nos logueamos.
+Instalamos los modulos Xtags, Xtour, Xnews. Esto puede tardar unos minutos, ya que nuestra maquina vagrant no dispone de mucha potencia.</p>
+
+<p>Si todo a salido bien nos mostrara el siguiente mensaje:</p>
+<pre class="highlight">Installation finished!////////////////////////////////////////////////////////////
+You've succesfully installed Ximdex CMS on your server.
+Log in and discover a different way to manage your content and data.
+
+Enable decoupled dynamic semantic publishing by adding these lines to your root crontab:
+
+* * * * * (php /var/www/ximdex/modules/ximNEWS/actions/generatecolector/automatic.php) &gt;&gt; /var/www/ximdex/logs/automatic.log 2&gt;&amp;1
+
+* * * * * (php /var/www/ximdex/modules/ximSYNC/scripts/scheduler/scheduler.php) &gt;&gt; /var/www/ximdex/logs/scheduler.log 2&gt;&amp;1
+
+</pre>
+<p>Añadimos las dos lineas anteriores al demonio contrab de maquina vagrant y Openshift, estas se encargaran de ejecutar la publicación.
+Comentamos disable_functions en /etc/php5/cli/php.ini y /etc/php5/apache2/php.ini</p>
+
+<p>Nos logueamos en Ximdex con el usuario anteriormente creado y cremos un nuevo proyecto.
+En este caso para ver un ejemplo simple, con los temas incluidos nos bastará, asignamos un nombre, canal y un tema.
+<strong>
+Para cualquier duda en la creación de proyectos vease:</strong>
+http://translate.google.com/translate?sl=en&amp;tl=es&amp;u=https://github.com/XIMDEX/ximdex/wiki/Recipes#create-a-new-server-medium</p>
+
+<p>Ya tenemos Ximdex funcionando en local, es hora de importar el contenido configurado de nuestro entorno de desarrollo, cms ximdex y db mysql.
+En la maquina vagrant, exportamos la db de ximdex en MySql al archivo db_ximdex.sql.</p>
+<pre class="highlight">mysqldump -u usuario_db -p nombre_db &gt; db_ximdex.sql</pre>
+<p>Estructura de la DB MySql:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------+
+| Tables_in_ximdex |
++---------------------------------+
+| Actions |
+| ActionsStats |
+| Batchs |
+| ChannelFrames |
+| Channels |
+| Config |
+| Contexts |
+| Dependencies |
+| Encodes |
+| FastTraverse |
+| GraphSerieProperties |
+| GraphSerieValues |
+| GraphSeries |
+| Graphs |
+| Groups |
+| IsoCodes |
+| Languages |
+| Links |
+| List |
+| List_Label |
+| Locales |
+| Messages |
+| Namespaces |
+| NoActionsInNode |
+| NodeAllowedContents |
+| NodeConstructors |
+| NodeDefaultContents |
+| NodeDependencies |
+| NodeEdition |
+| NodeFrames |
+| NodeNameTranslations |
+| NodeProperties |
+| NodeRelations |
+| NodeSets |
+| NodeTypes |
+| Nodes |
+| NodesToPublish |
+| NodetypeModes |
+| Permissions |
+| PipeCacheTemplates |
+| PipeCaches |
+| PipeNodeTypes |
+| PipeProcess |
+| PipeProperties |
+| PipePropertyValues |
+| PipeStatus |
+| PipeTransitions |
+| Pipelines |
+| PortalVersions |
+| Protocols |
+| PublishingReport |
+| Pumpers |
+| RelBulletinXimlet |
+| RelColectorList |
+| RelFramesPortal |
+| RelGroupsNodes |
+| RelLinkDescriptions |
+| RelNewsArea |
+| RelNewsBulletins |
+| RelNewsColector |
+| RelNodeMetadata |
+| RelNodeSetsNode |
+| RelNodeSetsUsers |
+| RelNodeTypeMetadata |
+| RelNodeTypeMimeType |
+| RelNodeVersionMetadataVersion |
+| RelPvdRole |
+| RelRolesActions |
+| RelRolesPermissions |
+| RelRolesStates |
+| RelSectionXimlet |
+| RelServersChannels |
+| RelServersNodes |
+| RelServersStates |
+| RelStrDocChannels |
+| RelStrdocAsset |
+| RelStrdocCss |
+| RelStrdocNode |
+| RelStrdocScript |
+| RelStrdocStructure |
+| RelStrdocTemplate |
+| RelStrdocXimlet |
+| RelTagsDescriptions |
+| RelTagsNodes |
+| RelTemplateContainer |
+| RelUsersGroups |
+| RelVersionsLabel |
+| RelXimletNode |
+| Roles |
+| SearchFilters |
+| SectionTypes |
+| ServerErrorByPumper |
+| ServerFrames |
+| Servers |
+| States |
+| StructuredDocuments |
+| Synchronizer |
+| SynchronizerDependencies |
+| SynchronizerDependenciesHistory |
+| SynchronizerGroups |
+| SynchronizerHistory |
+| SynchronizerStats |
+| SystemProperties |
+| UpdateDb_historic |
+| Updater_DiffsApplied |
+| Users |
+| Versions |
+| XimIOExportations |
+| XimIONodeTranslations |
+| XimNewsAreas |
+| XimNewsBulletins |
+| XimNewsCache |
+| XimNewsColector |
+| XimNewsFrameBulletin |
+| XimNewsFrameVersion |
+| XimNewsList |
+| XimNewsNews |
+| XimTAGSTags |
++---------------------------------+
+</code></pre></div></div>
+
+<p>Realizamos un git push.</p>
+
+<p>Nos conectamos por ssh y para cambiar los parametros de la db MySql del PaaS, para ello en primer lugar importamos la db.</p>
+
+<p>Cambiamos la configuración de la db de ximdex:</p>
+<pre class="highlight">nano /var/www/myximdex/conf/install-params.conf.php</pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/* DATABASE_PARAMS (do not remove this comment, please) */
+$DBHOST = "localhost";
+$DBPORT = "3306";
+$DBUSER = "XIMDEX_DBUSER";
+$DBPASSWD = "XIMDEX_DBPASS";
+$DBNAME = "myximdexDB";
+
+$XIMDEX_ROOT_PATH = "/var/www/myximdex";;
+</code></pre></div></div>
+
+<p>Tenemos que actualizar la db con los parametros nuevos del PaaS, podemos acerlo de dos oformas:
+Importamos la DB:</p>
+<pre class="highlight">cd app-root/repo/
+mysql -u usuario_mysql nombre_bbdd -p &lt; ruta_fichero_importación.sql</pre>
+<ul>
+	<li>Utilizar estas dos lineas dentro de MySql:</li>
+</ul>
+<pre class="highlight"><code>UPDATE Config SET ConfigValue='http://ximdex-tedezed.rhcloud.com/' WHERE ConfigKEY='UrlRoot';</code></pre>
+<pre class="highlight">UPDATE Config SET ConfigValue='/var/lib/openshift/***************/app-root/repo/' WHERE ConfigKEY='AppRoot';</pre>
+<ul>
+	<li>Utilizar el siguiente script en python, antes de importar la db:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import sys
+fil = sys.argv[1]
+cad1 = raw_input('Cadena a sustituir: ')
+cad2 = raw_input('Cadena que introducir: ')
+#Read
+archi = open(fil,'r')
+sql = ''
+for linea in archi:
+sql = sql + linea
+sql = sql.replace(cad1,cad2)
+#sql = sql.replace(cad3,cad4)
+archi.close()
+#Write
+archi2 = open(fil,'w')
+archi2.write(sql)
+archi2.close()
+</code></pre></div></div>
+
+<p>A este script le pasamos como parametro db_ximdex.sql, se ejecutaria de la siguiente forma:</p>
+<pre class="highlight">$ python nombre_script.py db_ximdex.sql
+192.168.40.50/ximdex
+</pre>
+<p>por: <code class="language-plaintext highlighter-rouge">ximdex-tedezed.rhcloud.com</code></p>
+
+<p>Lo ejecutamos de nuevo y sustituimos: <code class="language-plaintext highlighter-rouge">/var/www/ximdex</code>
+por: <code class="language-plaintext highlighter-rouge">/var/lib/openshift/***************/app-root/repo/</code></p>
+
+<p>Por ultimo importas la db:</p>
+<pre class="highlight">cd app-root/repo/
+mysql -u usuario_mysql nombre_bbdd -p &lt; ruta_fichero_importación.sql</pre>
+
+<p>Ya estaría listo el despliegue de Ximdex, las publicaciones por defecto estarían en: http://URL/data/previos/</p>
+
+<p>Publicación de ejemplo: http://ximdex-tedezed.rhcloud.com/data/previos/</p>
+
+            </div>
+            
+                
+            <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div>
+                
+            
+            </div>
+          </div>
+          <div class="pagination">
+              
+                <a class="btn btn-default" href="/2016/07/Control-de-retroiluminacion-en-teclado-CMSTORM" class="next">Newer Post</a>
+              
+              
+                <a class="btn btn-default" href="/2016/07/Cifrado-de-volumenes-logicos-LVM-con-Cryptsetup-dm-crypt" class="previous">Older Post</a>
+              
+          </div>
+        </div>
+        <div class="col-md-3 hidden-xs">
+            <div class="sidebar well">
+    <!--<h4>Twitter</h4>
+    <a class="twitter-timeline" data-height="515" href="https://twitter.com/Zerrotajo?ref_src=twsrc%5Etfw">Tweets by Zerrotajo</a>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=sysadmin&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">#sysadmin</a>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=kubernetes&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">#kubernetes</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>-->
+<h4>Kubernetes Containers Tools</h4>
+  <ul>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/squirrel">Squirel secrets rotation</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/liberty">Liberty Ingress</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/secure_emailing">Secure Emailing Gateway</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/cloud-cementery/docker">Cloud Cementery</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/cron-backup-kubernetes">Backups for Kubernetes in yaml</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/backup-db-cron">Backups/Snapshots for all</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/sftp-multiuser">SFTP Multiuser</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/statefulset_autoscaler">StatefulSet autoscaler</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/tools/Kubernetes/concurrent-kubectl-gcloud">Concurrent kubectl gcloud</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/debian-box">Debian Box</a></li>
+  </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+    var disqus_shortname = 'www-aventurabinaria-es';
+
+    var disqus_config = function () {
+        this.page.identifier = '2016-07-cms-ximdex-de-vagrant-a-openshift';
+    };
+
+   (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+
+<!--<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12 footer navbar-inverse navbar-fixed-bottom">
+            <p class="copyright">&copy;2022 Aventura Binaria. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="https://github.com/scotte/jekyll-clean">Scott Emmons</a>
+            under
+            <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a></p>
+        </div>
+    </div>
+</div>-->
+
+
+  <script type="text/javascript">
+    var disqus_shortname = 'www-aventurabinaria-es';
+
+    var disqus_config = function () {
+        this.page.identifier = '2016-07-cms-ximdex-de-vagrant-a-openshift';
+    };
+
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+ </script>
+
+
+<!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153422845-1"></script>
+  <script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-153422845-1');
+  </script>
+
+-->
+
+</body>
+</html>
+

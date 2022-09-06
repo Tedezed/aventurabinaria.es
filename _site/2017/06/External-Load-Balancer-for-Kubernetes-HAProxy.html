@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aventura Binaria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/theme_v2.css" rel="stylesheet" type="text/css">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="https://www.aventurabinaria.es/images/favicon-32x32.png"/>
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Aventura Binaria</a>
+              </div>
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <!--<li class="active"><a href="/">Home</a></li>-->
+                    <li class="active visible-xs-block"><a href="/links.html">Links</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/archive.html">Archive</a></li>
+                    <!--<li class="active"><a href="/about.html">About</a></li>-->
+                    <!--<li class="active"><a href="/space.html">Space</a></li>-->
+                    
+                    
+                      <li class="nav-item"><a class="nav-link" href="https://github.com/Tedezed">Github</a></li>
+                    
+                    <li class="nav-item"><a class="nav-link" href="/feed.xml">RSS</a></li>
+                </ul>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 hidden-xs">
+            <div class="sidebar well">
+Blog Sysadmin/DevOps on Github - GNU/Linux
+</div>
+
+<div class="sidebar well">
+<h4>Links</h4>
+<ul>
+  <li><a href="http://tedezed.github.io/Celtic-Kubernetes/HTML">Celtic Kubernetes</a></li>
+  <li><a href="https://twitter.com/zerrotajo">Twitter</a></li>
+  <li><a href="https://www.thingiverse.com/tedezed/designs">Thingiverse</a></li>
+  <li><a href="mailto:juanmanuel.torres@aventurabinaria.es">Mail</a></li>
+</ul>
+
+</div>
+
+<div class="sidebar well">
+    <h4>Recent Posts</h4>
+    <ul>
+        
+          <li><a href="/2020/12/Install-amd-drivers-linux-debian-ubuntu">Install AMD drivers for Linux (Debian/Ubuntu)</a></li>
+        
+          <li><a href="/2020/04/Change-local-port-in-Sendmail">Change local port in Sendmail</a></li>
+        
+          <li><a href="/2019/10/Examples-Nanorc">Examples Nanorc</a></li>
+        
+          <li><a href="/2019/07/Massive-editor-json-for-Kubernetes">Massive editor json for Kubernetes</a></li>
+        
+          <li><a href="/2019/03/Ingress-TCP-UDP">Ingress TCP/UDP</a></li>
+        
+          <li><a href="/2019/03/Delete-namespace-in-perpetual-Terminating-state">Delete namespace in perpetual Terminating state</a></li>
+        
+          <li><a href="/2017/06/External-Load-Balancer-for-Kubernetes-HAProxy">External Load Balancer for Kubernetes - HAProxy</a></li>
+        
+          <li><a href="/2017/05/Galera-Cluster-on-Debian-8">Galera Cluster on Debian 8</a></li>
+        
+          <li><a href="/2017/02/Creaci%C3%B3n-publicacion-y-firma-de-claves-PGP">Creación, publicación y firma de claves PGP</a></li>
+        
+          <li><a href="/2016/08/Poblar-LDAP-desde-fichero-JSON-PAM-y-SSH-con-Clave-publica">Poblar LDAP desde fichero JSON [PAM y SSH con Clave publica]</a></li>
+        
+          <li><a href="/2016/08/Pantalla-LCD-16-2-y-PCF8574-(I2C)-para-Arduino">Pantalla LCD 16×2 y PCF8574 (I2C) para Arduino</a></li>
+        
+          <li><a href="/2016/08/Pantalla-LCD-16x2-y-PCF8574-(I2C)-para-Raspberry-pi">Pantalla LCD 16x2 y PCF8574 (I2C) para Raspberry pi</a></li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="article">
+            <div class="well">
+                <h1><a href="/2017/06/External-Load-Balancer-for-Kubernetes-HAProxy">External Load Balancer for Kubernetes - HAProxy</a></h1>
+                <h5>11 Jun, 2017</h5>
+                <hr/>
+            
+                
+                <p class="author"><a href="#disqus_thread" data-disqus-identifier="2017-06-external-load-balancer-for-kubernetes-haproxy">Comments</a></p>
+                
+            
+            <div class="post-content">
+            <h3 id="you-need">You need:</h3>
+
+<ul>
+  <li>Cluster Kubernetes</li>
+  <li>New node for HAProxy</li>
+</ul>
+
+<p>Sources:</p>
+
+<ul>
+  <li>Inspired by <a href="https://github.com/kubernetes/contrib/tree/master/service-loadbalancer">service-loadbalancer</a></li>
+  <li>Source <a href="https://github.com/Tedezed/Celtic-Kubernetes/tree/master/external_loadbalancer_hap">Celtic-Kubernetes</a></li>
+</ul>
+
+<h3 id="instalation-in-node-haproxy">Instalation in node HAProxy</h3>
+
+<p>Install basic sowftware</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install epel-release
+yum install haproxy git socat python-pip
+pip install jinja2
+pip install deepdiff
+</code></pre></div></div>
+
+<p>Clone repository in / or other route for dinamic configuration of HAProxy</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Tedezed/Celtic-Kubernetes.git
+</code></pre></div></div>
+
+<p>Create errors html for service HAProxy</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /etc/haproxy/errors/
+cp /Celtic-Kubernetes/external_loadbalancer_hap/errors/* /etc/haproxy/errors/
+cp /Celtic-Kubernetes/external_loadbalancer_hap/system/haproxy.cfg /etc/haproxy/
+</code></pre></div></div>
+
+<p>Create state global</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p /var/state/haproxy/
+touch  /var/state/haproxy/global
+</code></pre></div></div>
+
+<p>Enable Haproxy</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl enable haproxy
+</code></pre></div></div>
+
+<h3 id="test">Test</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python hap_manager_daemon.py start
+python hap_manager_daemon.py stop
+sh haproxy_reload
+</code></pre></div></div>
+
+<p> </p>
+
+<h2 id="hap-manager">HAP Manager</h2>
+
+<p>You need the repository <a href="https://github.com/Tedezed/Celtic-Kubernetes.git">https://github.com/Tedezed/Celtic-Kubernetes.git</a></p>
+
+<p>Modify configuration.json for hap_manager</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+"kube_api": "morrigan:8080",
+"version": "v1",
+"file_conf": "template.cfg",
+"stats": true,
+"sleep": 3
+}
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Kube API master</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  "kube_api": "ip_kube_api_server:port_http"
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="unit-for-systemd-of-hap_manager">Unit for systemd of hap_manager</h3>
+
+<p>Copy file hap_manager.service</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp /Celtic-Kubernetes/external_loadbalancer_hap/system/hap_manager.service /lib/systemd/system/hap_manager.service
+</code></pre></div></div>
+
+<p>Modify permissions for hap_manager</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chmod 644 /lib/systemd/system/hap_manager.service
+</code></pre></div></div>
+
+<p>Reload daemon systemctl for reload configuration of units</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl daemon-reload
+</code></pre></div></div>
+
+<p>Start hap_manager.service</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start hap_manager.service
+
+systemctl enable hap_manager.service
+</code></pre></div></div>
+
+<p>See settings</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /etc/haproxy/haproxy.cfg | grep acl
+</code></pre></div></div>
+
+<p> </p>
+
+<h3 id="define-services">Define services</h3>
+
+<p>Example rc</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
+kind: ReplicationController
+metadata:
+ name: nginx-controller
+spec:
+ replicas: 2
+ selector:
+   name: nginx
+ template:
+   metadata:
+     labels:
+       name: nginx
+   spec:
+     containers:
+       - name: nginx
+         image: nginx
+         ports:
+           - containerPort: 80
+</code></pre></div></div>
+
+<p>Example svc, you need <code class="language-plaintext highlighter-rouge">NodePort</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-domain
+  labels:
+    app: nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    name: nginx
+</code></pre></div></div>
+
+<p>Enter with <a href="http://IP-SERVER-HAP/NAME-SERVICE/">http://IP-SERVER-HAP/NAME-SERVICE/</a></p>
+
+<p>You need domain for the service, no problem, you can use the label “domain”</p>
+
+<p>Example svc with domain</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-domain
+  labels:
+    app: nginx
+    domain: www.test-domain.com
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    name: nginx
+</code></pre></div></div>
+
+<p> </p>
+
+<h3 id="not-repeat-the-domain-name">Not repeat the domain name</h3>
+
+<p>You can use <a href="https://github.com/Tedezed/Celtic-Kubernetes/blob/master/external_loadbalancer_hap/manager_tools.py">manager_tools.py</a> (function <strong>constraint_domain</strong>) for not to repeat the domain name. If return True domain name is in use.</p>
+
+<p>Example</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>constraint_domain("morrigan:8080","v1","www.test-domain.com")
+</code></pre></div></div>
+
+            </div>
+            
+                
+            <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div>
+                
+            
+            </div>
+          </div>
+          <div class="pagination">
+              
+                <a class="btn btn-default" href="/2019/03/Delete-namespace-in-perpetual-Terminating-state" class="next">Newer Post</a>
+              
+              
+                <a class="btn btn-default" href="/2017/05/Galera-Cluster-on-Debian-8" class="previous">Older Post</a>
+              
+          </div>
+        </div>
+        <div class="col-md-3 hidden-xs">
+            <div class="sidebar well">
+    <!--<h4>Twitter</h4>
+    <a class="twitter-timeline" data-height="515" href="https://twitter.com/Zerrotajo?ref_src=twsrc%5Etfw">Tweets by Zerrotajo</a>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=sysadmin&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">#sysadmin</a>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=kubernetes&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">#kubernetes</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>-->
+<h4>Kubernetes Containers Tools</h4>
+  <ul>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/squirrel">Squirel secrets rotation</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/liberty">Liberty Ingress</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/secure_emailing">Secure Emailing Gateway</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/cloud-cementery/docker">Cloud Cementery</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/cron-backup-kubernetes">Backups for Kubernetes in yaml</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/backup-db-cron">Backups/Snapshots for all</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/sftp-multiuser">SFTP Multiuser</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/statefulset_autoscaler">StatefulSet autoscaler</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/tools/Kubernetes/concurrent-kubectl-gcloud">Concurrent kubectl gcloud</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/debian-box">Debian Box</a></li>
+  </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+    var disqus_shortname = 'www-aventurabinaria-es';
+
+    var disqus_config = function () {
+        this.page.identifier = '2017-06-external-load-balancer-for-kubernetes-haproxy';
+    };
+
+   (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+
+<!--<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12 footer navbar-inverse navbar-fixed-bottom">
+            <p class="copyright">&copy;2022 Aventura Binaria. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="https://github.com/scotte/jekyll-clean">Scott Emmons</a>
+            under
+            <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a></p>
+        </div>
+    </div>
+</div>-->
+
+
+  <script type="text/javascript">
+    var disqus_shortname = 'www-aventurabinaria-es';
+
+    var disqus_config = function () {
+        this.page.identifier = '2017-06-external-load-balancer-for-kubernetes-haproxy';
+    };
+
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+ </script>
+
+
+<!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153422845-1"></script>
+  <script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-153422845-1');
+  </script>
+
+-->
+
+</body>
+</html>
+

@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Aventura Binaria</title>
+		<description>Blog Sysadmin/DevOps on Github - GNU/Linux</description>
+		<link>http://localhost:4000</link>
+		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>Install AMD drivers for Linux (Debian/Ubuntu)</title>
+				<description>&lt;p&gt;Download and isntall &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;amdgpu-install&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -SL https://repo.radeon.com/amdgpu-install/21.40.1/ubuntu/focal/amdgpu-install_21.40.1.40501-1_all.deb -o amdgpu-install_21.40.1.40501-1_all.deb
+sudo apt-get install ./amdgpu-install_21.40.1.40501-1_all.deb
+sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Execute &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;amdgpu-install&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;amdgpu-install --usecase=graphics,opencl --opencl=rocr,legacy --vulkan=amdvlk,pro --no-32
+sudo reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Fri, 11 Dec 2020 03:26:06 +0100</pubDate>
+				<link>http://localhost:4000/2020/12/Install-amd-drivers-linux-debian-ubuntu</link>
+				<guid isPermaLink="true">http://localhost:4000/2020/12/Install-amd-drivers-linux-debian-ubuntu</guid>
+			</item>
+		
+			<item>
+				<title>Change local port in Sendmail</title>
+				<description>&lt;p&gt;First we must change the port(2525) for the daemon in the following file: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nano /etc/mail/sendmail.mc&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FEATURE(`no_default_msa')dnl
+DAEMON_OPTIONS(`Port=2525,Addr=127.0.0.1, Name=MTA-v4')dnl
+DAEMON_OPTIONS(`Port=587,Addr=127.0.0.1, M=Ea, Name=MSP-v4')dnl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To be able to send message to port 2525 with the commands mail and sendmail, we will have to modify the following file and create a SMART_HOST in this: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nano /etc/mail/submit.mc&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;divert(-1)dnl
+divert(0)dnl
+define(`_USE_ETC_MAIL_')dnl
+include(`/usr/share/sendmail/cf/m4/cf.m4')dnl
+VERSIONID(`$Id: submit.mc, v 8.15.2-3 2015-12-10 18:02:49 cowboy Exp $')
+OSTYPE(`debian')dnl
+DOMAIN(`debian-msp')dnl
+define(`RELAY_MAILER_ARGS',`TCP $h 2525')dnl
+define(`SMART_HOST',`127.0.0.1')dnl
+FEATURE(`msp', `[127.0.0.1]')dnl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Apply settings whit the following commands:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;make -C /etc/mail
+sendmailconfig
+m4 /etc/mail/submit.mc &amp;gt; /etc/mail/submit.cf
+m4 /etc/mail/sendmail.mc &amp;gt; /etc/mail/sendmail.cf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Restart de daemon sendmail: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;systemctl restart sendmail&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Check that the daemon is running on the port we want:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# lsof -i -P -n | grep sendmail
+sendmail- 31492     root    4u  IPv4 10544619      0t0  TCP 127.0.0.1:2525 (LISTEN)
+sendmail- 31492     root    5u  IPv4 10544620      0t0  TCP 127.0.0.1:587 (LISTEN)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With this we can already send the email with the change local port:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;echo &quot;Test Email&quot; | mail -s &quot;Subject Here&quot; admin@example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+				<pubDate>Wed, 29 Apr 2020 01:25:06 +0200</pubDate>
+				<link>http://localhost:4000/2020/04/Change-local-port-in-Sendmail</link>
+				<guid isPermaLink="true">http://localhost:4000/2020/04/Change-local-port-in-Sendmail</guid>
+			</item>
+		
+			<item>
+				<title>Examples Nanorc</title>
+				<description>&lt;h2 id=&quot;syntax-files&quot;&gt;Syntax Files&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/nanorc.png&quot; width=&quot;80%&quot; alt=&quot;nanorc&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Paths nanorc syntax files&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo nano /usr/share/nano/markdown.nanorc&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo nano /usr/local/share/nano/markdown.nanorc&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Example sysntax for Markdown&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;syntax &quot;markdown&quot; &quot;\.md$&quot; &quot;\.markdown$&quot;
+
+## Quotations
+color cyan &quot;^&amp;gt;.*&quot;
+
+## Emphasis
+color green &quot;_[^_]*_&quot;
+color green &quot;\*[^\*]*\*&quot;
+
+## Strong emphasis
+color brightgreen &quot;\*\*[^\*]*\*\*&quot;
+color brightgreen &quot;__[\_]*__&quot;
+
+## Underline headers
+color brightblue &quot;^====(=*)&quot;
+color brightblue &quot;^----(-*)&quot;
+
+## Hash headers
+color brightred &quot;^#.*&quot;
+
+## Linkified URLs (and inline html tags)
+color brightmagenta start=&quot;&amp;lt;&quot; end=&quot;&amp;gt;&quot;
+
+## Links
+color brightmagenta &quot;\[.*\](\([^\)]*\))?&quot;
+
+## Link id's:
+color brightmagenta &quot;^\[.*\]:( )+.*&quot;
+
+## Code spans
+color yellow &quot;`[^`]*`&quot;
+
+## Multi-line code span
+color yellow start=&quot;^```$&quot; end=&quot;^```$&quot;
+
+## Links and inline images
+color brightmagenta start=&quot;!\[&quot; end=&quot;\]&quot;
+color brightmagenta start=&quot;\[&quot; end=&quot;\]&quot;
+
+## Lists
+color yellow &quot;^( )*(\*|\+|\-|[0-9]+\.) &quot;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Include yours syntax files
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nano ~/.nanorc&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;include /usr/local/share/nano/*   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Mon, 14 Oct 2019 05:00:06 +0200</pubDate>
+				<link>http://localhost:4000/2019/10/Examples-Nanorc</link>
+				<guid isPermaLink="true">http://localhost:4000/2019/10/Examples-Nanorc</guid>
+			</item>
+		
+			<item>
+				<title>Massive editor json for Kubernetes</title>
+				<description>&lt;p&gt;In this post we will see the use of a custom bash (kmae and kselect) function that can save you time in your Kuberentes environments.&lt;/p&gt;
+
+&lt;p&gt;The idea is to interact with Kubernetes to be able to quickly edit a large amount of resources using grep filters; external (kubectl get pod) and internal (kubectl get pod -o json).&lt;/p&gt;
+
+&lt;p&gt;Code: &lt;a href=&quot;https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5&quot;&gt;https://gist.github.com/Tedezed/a8abece3507296c4fa1eb0ea70cc15e5&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Kmae&lt;/strong&gt;: It can be very dangerous if it is not used with caution, it saves three days of json edited to be able to recover them in the case of needing them in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$HOME/.kmae&lt;/code&gt;.
+You can create backup of your cluster in json using: &lt;a href=&quot;https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup&quot;&gt;https://github.com/Tedezed/kubernetes-resources/tree/master/kubebackup&lt;/a&gt;
+ &lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To test it you can create an environment with several nginx with the following for:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;for i in $(seq 1 6); do
+  kubectl create namespace nginx-$i;
+  kubectl create deploy nginx-$i -n nginx-$i --image=nginx;
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt; 
+&lt;img src=&quot;https://www.aventurabinaria.es/images/posts/tty-kmae.gif&quot; width=&quot;99%&quot; alt=&quot;Gif tty&quot; /&gt;
+ &lt;/p&gt;
+
+&lt;p&gt;We will use kselect to test your filters in the first place:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Format:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kselect (ENTITY) (GREP_EXTERNAL_KUBECTL) (GREP_INTERNAL_JSON) (JSON_PATH) (NAMESPACE OR --all-namespaces)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Get json path spec.strategy.rollingUpdate of the nginx with name nginx-1 to 3 and generation equal to 1 in all namespaces&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kselect deploy &quot;(nginx-[1-3])&quot; '&quot;observedGeneration&quot;: 1' .spec.strategy.rollingUpdate --all-namespaces
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p&gt;In the second place, modify the spec.strategy.rollingUpdate of the three deployments at the same command:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Format:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kmae (ENTITY) (GREP_EXTERNAL_KUBECTL) (GREP_INTERNAL_JSON) (JSON_PATH_TO_UPDATE) (NAMESPACE OR --all-namespaces)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kmae deploy &quot;(nginx-[1-3])&quot; '&quot;observedGeneration&quot;: 1' '{&quot;spec&quot;:{&quot;strategy&quot;:{&quot;rollingUpdate&quot;:{&quot;maxUnavailable&quot;: &quot;50%&quot;, &quot;maxSurge&quot;: &quot;45%&quot;}}}}' --all-namespaces
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p&gt;We tested the previous kselect that does not return anything because the generation number changed:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kselect deploy &quot;(nginx-[1-3])&quot; '&quot;observedGeneration&quot;: 1' .spec.strategy.rollingUpdate --all-namespaces
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If it works if we change the generation:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kselect deploy &quot;(nginx-[1-3])&quot; '&quot;observedGeneration&quot;: 2' .spec.strategy.rollingUpdate --all-namespaces
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p&gt;One last test with modification of replicas:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kselect deploy &quot;(nginx-[1-3])&quot; '&quot;observedGeneration&quot;: 2' .spec.replicas --all-namespaces
+kmae deploy &quot;(nginx-[1-3])&quot; '&quot;observedGeneration&quot;: 2' '{&quot;spec&quot;:{&quot;replicas&quot;:2}}' --all-namespaces
+kselect deploy &quot;(nginx-[1-3])&quot; '&quot;observedGeneration&quot;: 3' .spec.replicas --all-namespaces
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p&gt;Clean enviroment:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;for i in $(seq 1 6); do 
+  kubectl delete deploy nginx-$i -n nginx-$i --force --grace-period=0;
+  kubectl delete namespace nginx-$i --force --grace-period=0; 
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Tue, 16 Jul 2019 05:00:06 +0200</pubDate>
+				<link>http://localhost:4000/2019/07/Massive-editor-json-for-Kubernetes</link>
+				<guid isPermaLink="true">http://localhost:4000/2019/07/Massive-editor-json-for-Kubernetes</guid>
+			</item>
+		
+			<item>
+				<title>Ingress TCP/UDP</title>
+				<description>&lt;p&gt;Source: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/exposing-tcp-udp-services.md&lt;/p&gt;
+
+&lt;p&gt;Install ingress nginx with helm&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm install stable/nginx-ingress \
+	--name nginx-ingress-tcp-udp \
+	--namespace nginx-ingress-tcp-udp \
+	--set controller.ingressClass=nginx-ingress-tcp-udp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Create configmap with format: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;namespace/service:port&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl apply -f - -o yaml &amp;lt;&amp;lt; EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: nginx-ingress-tcp-udp
+data:
+  2000: &quot;demo-test/mysql-demo-test:3306&quot;
+  2001: &quot;demo-test/sftp-server:22&quot;
+  2002: &quot;demo-test/postgres-server:5432&quot;
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Edit service nginx-ingress &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl edit svc nginx-ingress-tcp-udp-controller -n nginx-ingress-tcp-udp&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  - name: proxied-tcp-2000
+    port: 2000
+    targetPort: 2000
+    protocol: TCP
+  - name: proxied-tcp-2001
+    port: 2001
+    targetPort: 2001
+    protocol: TCP
+  - name: proxied-tcp-2002
+    port: 2002
+    targetPort: 2002
+    protocol: TCP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Edit deployment nginx-ingress &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl edit deploy nginx-ingress-tcp-udp-controller --namespace nginx-ingress-tcp-udp&lt;/code&gt;
+Edit:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    spec:
+      containers:
+      - args:
+        - /nginx-ingress-controller
+        - --tcp-services-configmap=nginx-ingress-tcp-udp/tcp-services
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Access through the port previously assigned to the services configured in the configmap.&lt;/p&gt;
+</description>
+				<pubDate>Fri, 22 Mar 2019 01:00:06 +0100</pubDate>
+				<link>http://localhost:4000/2019/03/Ingress-TCP-UDP</link>
+				<guid isPermaLink="true">http://localhost:4000/2019/03/Ingress-TCP-UDP</guid>
+			</item>
+		
+			<item>
+				<title>Delete namespace in perpetual Terminating state</title>
+				<description>&lt;p&gt;Error, perpetual Terminating state:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NAME             STATUS        AGE
+cert-manager     Terminating   3h
+default          Active        1y
+kube-public      Active        1y
+kube-system      Active        1y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Clean namespace:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl delete all -n cert-manager --all --force --grace-period=0
+kubectl delete ns cert-manager --force --grace-period=0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Variables for configuration:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export NAMESPACE_TO_DELETE=&quot;cert-manager&quot;
+export CLUSTER_NAME=&quot;gke_PRO-ID_ZONE-GCP_NAME-CLUSTER&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create service account with permissions:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f - -o yaml &amp;lt;&amp;lt; EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tmpadmin
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Save the namespace to edit it &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl get namespace $NAMESPACE_TO_DELETE -o json &amp;gt; tmp.json&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Edit:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &quot;spec&quot;: {
+        &quot;finalizers&quot;: [
+            &quot;kubernetes&quot;
+        ]
+    },
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;To:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &quot;spec&quot;: {
+        &quot;finalizers&quot;: []
+    },
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create the following variables&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;APISERVER=$(kubectl config view -o jsonpath=&quot;{.clusters[?(@.name==\&quot;$CLUSTER_NAME\&quot;)].cluster.server}&quot;)
+TOKEN=$(kubectl get secrets -o jsonpath=&quot;{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='tmpadmin')].data.token}&quot;|base64 -d)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Test token: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl -X GET $APISERVER/api --header &quot;Authorization: Bearer $TOKEN&quot; --insecure&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Update namespace:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -X PUT $APISERVER/api/v1/namespaces/$NAMESPACE_TO_DELETE/finalize -H &quot;Content-Type: application/json&quot; -H &quot;Authorization: Bearer $TOKEN&quot; --data-binary @tmp.json  --insecure
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After this the namespace is erased.&lt;/p&gt;
+
+&lt;p&gt;Clean the service account:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl delete sa tmpadmin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Thu, 21 Mar 2019 01:00:06 +0100</pubDate>
+				<link>http://localhost:4000/2019/03/Delete-namespace-in-perpetual-Terminating-state</link>
+				<guid isPermaLink="true">http://localhost:4000/2019/03/Delete-namespace-in-perpetual-Terminating-state</guid>
+			</item>
+		
+			<item>
+				<title>External Load Balancer for Kubernetes - HAProxy</title>
+				<description>&lt;h3 id=&quot;you-need&quot;&gt;You need:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Cluster Kubernetes&lt;/li&gt;
+  &lt;li&gt;New node for HAProxy&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Sources:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Inspired by &lt;a href=&quot;https://github.com/kubernetes/contrib/tree/master/service-loadbalancer&quot;&gt;service-loadbalancer&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Source &lt;a href=&quot;https://github.com/Tedezed/Celtic-Kubernetes/tree/master/external_loadbalancer_hap&quot;&gt;Celtic-Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;instalation-in-node-haproxy&quot;&gt;Instalation in node HAProxy&lt;/h3&gt;
+
+&lt;p&gt;Install basic sowftware&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install epel-release
+yum install haproxy git socat python-pip
+pip install jinja2
+pip install deepdiff
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Clone repository in / or other route for dinamic configuration of HAProxy&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/Tedezed/Celtic-Kubernetes.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create errors html for service HAProxy&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir /etc/haproxy/errors/
+cp /Celtic-Kubernetes/external_loadbalancer_hap/errors/* /etc/haproxy/errors/
+cp /Celtic-Kubernetes/external_loadbalancer_hap/system/haproxy.cfg /etc/haproxy/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create state global&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p /var/state/haproxy/
+touch  /var/state/haproxy/global
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Enable Haproxy&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable haproxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;test&quot;&gt;Test&lt;/h3&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python hap_manager_daemon.py start
+python hap_manager_daemon.py stop
+sh haproxy_reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;h2 id=&quot;hap-manager&quot;&gt;HAP Manager&lt;/h2&gt;
+
+&lt;p&gt;You need the repository &lt;a href=&quot;https://github.com/Tedezed/Celtic-Kubernetes.git&quot;&gt;https://github.com/Tedezed/Celtic-Kubernetes.git&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Modify configuration.json for hap_manager&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+&quot;kube_api&quot;: &quot;morrigan:8080&quot;,
+&quot;version&quot;: &quot;v1&quot;,
+&quot;file_conf&quot;: &quot;template.cfg&quot;,
+&quot;stats&quot;: true,
+&quot;sleep&quot;: 3
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kube API master&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &quot;kube_api&quot;: &quot;ip_kube_api_server:port_http&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;unit-for-systemd-of-hap_manager&quot;&gt;Unit for systemd of hap_manager&lt;/h3&gt;
+
+&lt;p&gt;Copy file hap_manager.service&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp /Celtic-Kubernetes/external_loadbalancer_hap/system/hap_manager.service /lib/systemd/system/hap_manager.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Modify permissions for hap_manager&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chmod 644 /lib/systemd/system/hap_manager.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Reload daemon systemctl for reload configuration of units&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl daemon-reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Start hap_manager.service&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start hap_manager.service
+
+systemctl enable hap_manager.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;See settings&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat /etc/haproxy/haproxy.cfg | grep acl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;h3 id=&quot;define-services&quot;&gt;Define services&lt;/h3&gt;
+
+&lt;p&gt;Example rc&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
+kind: ReplicationController
+metadata:
+ name: nginx-controller
+spec:
+ replicas: 2
+ selector:
+   name: nginx
+ template:
+   metadata:
+     labels:
+       name: nginx
+   spec:
+     containers:
+       - name: nginx
+         image: nginx
+         ports:
+           - containerPort: 80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Example svc, you need &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NodePort&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-domain
+  labels:
+    app: nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    name: nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Enter with &lt;a href=&quot;http://IP-SERVER-HAP/NAME-SERVICE/&quot;&gt;http://IP-SERVER-HAP/NAME-SERVICE/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You need domain for the service, no problem, you can use the label “domain”&lt;/p&gt;
+
+&lt;p&gt;Example svc with domain&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-domain
+  labels:
+    app: nginx
+    domain: www.test-domain.com
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    name: nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;h3 id=&quot;not-repeat-the-domain-name&quot;&gt;Not repeat the domain name&lt;/h3&gt;
+
+&lt;p&gt;You can use &lt;a href=&quot;https://github.com/Tedezed/Celtic-Kubernetes/blob/master/external_loadbalancer_hap/manager_tools.py&quot;&gt;manager_tools.py&lt;/a&gt; (function &lt;strong&gt;constraint_domain&lt;/strong&gt;) for not to repeat the domain name. If return True domain name is in use.&lt;/p&gt;
+
+&lt;p&gt;Example&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;constraint_domain(&quot;morrigan:8080&quot;,&quot;v1&quot;,&quot;www.test-domain.com&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Sun, 11 Jun 2017 01:25:06 +0200</pubDate>
+				<link>http://localhost:4000/2017/06/External-Load-Balancer-for-Kubernetes-HAProxy</link>
+				<guid isPermaLink="true">http://localhost:4000/2017/06/External-Load-Balancer-for-Kubernetes-HAProxy</guid>
+			</item>
+		
+			<item>
+				<title>Galera Cluster on Debian 8</title>
+				<description>&lt;p&gt;In this stage you need two nodes with Debian OS for deploy Galera Cluster Maria DB. The next entry add other two nodes with HAProxy and VIP for load balancer to Cluster.&lt;/p&gt;
+
+&lt;p&gt;The first step is add the repository of mariadb to Debian (Node1 and node2):&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb [arch=amd64,i386] http://mariadb.kisiek.net/repo/10.0/debian jessie main'
+sudo apt-get update
+sudo apt-get upgrade
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When is done, install the software for Galera cluster (Node1 and node2):&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install -y rsync galera mariadb-galera-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The next step is configure the file of configuration of Galera:&lt;/p&gt;
+
+&lt;p&gt;For node01:&lt;/p&gt;
+&lt;pre class=&quot;highlight&quot;&gt;
+echo '[mysqld]
+# MySQL Configuration
+query_cache_size=0
+binlog_format=ROW
+default-storage-engine=&lt;strong&gt;innodb&lt;/strong&gt;
+innodb_autoinc_lock_mode=2
+query_cache_type=0
+bind-address=&lt;strong&gt;0.0.0.0&lt;/strong&gt;
+
+# Galera Provider Configuration
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+#wsrep_provider_options=&quot;gcache.size=32G&quot;
+
+# Galera Cluster Configuration
+wsrep_cluster_name=&quot;test_cluster&quot;
+wsrep_cluster_address=&quot;&lt;strong&gt;gcomm://192.168.30.11:4567,192.168.30.12:4567&lt;/strong&gt;&quot;
+
+# Galera Synchronization Congifuration
+wsrep_sst_method=rsync
+#wsrep_sst_auth=user:pass
+
+# Galera Node Configuration
+wsrep_node_address=&quot;&lt;strong&gt;192.168.30.11&lt;/strong&gt;&quot;
+wsrep_node_name=&quot;&lt;strong&gt;node01&lt;/strong&gt;&quot;' &amp;gt; /etc/mysql/conf.d/galera.cnf ; chmod 770 /etc/mysql/conf.d/galera.cnf
+&lt;/pre&gt;
+
+&lt;p&gt;For node02:&lt;/p&gt;
+&lt;pre class=&quot;highlight&quot;&gt;
+echo '[mysqld]
+# MySQL Configuration
+query_cache_size=0
+binlog_format=ROW
+default-storage-engine=&lt;strong&gt;innodb&lt;/strong&gt;
+innodb_autoinc_lock_mode=2
+query_cache_type=0
+bind-address=&lt;strong&gt;0.0.0.0&lt;/strong&gt;
+
+# Galera Provider Configuration
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+#wsrep_provider_options=&quot;gcache.size=32G&quot;
+
+# Galera Cluster Configuration
+wsrep_cluster_name=&quot;test_cluster&quot;
+wsrep_cluster_address=&quot;&lt;strong&gt;gcomm://192.168.30.11:4567,192.168.30.12:4567&lt;/strong&gt;&quot;
+
+# Galera Synchronization Congifuration
+wsrep_sst_method=rsync
+#wsrep_sst_auth=user:pass
+
+# Galera Node Configuration
+wsrep_node_address=&quot;&lt;strong&gt;192.168.30.12&lt;/strong&gt;&quot;
+wsrep_node_name=&quot;&lt;strong&gt;node02&lt;/strong&gt;&quot;' &amp;gt; /etc/mysql/conf.d/galera.cnf ; chmod 770 /etc/mysql/conf.d/galera.cnf
+&lt;/pre&gt;
+
+&lt;h4 id=&quot;bonus-configuration&quot;&gt;BONUS configuration&lt;/h4&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[mysql_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configure the file /etc/hosts (Node1 and node2):&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;192.168.30.11 node01
+192.168.30.12 node02
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Copy file /etc/mysql/debian.cnf to the node01 to node02&lt;/p&gt;
+
+&lt;p&gt;Stop the service MySQL (Node1 and node2):&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service mysql stop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Execute the next command for create new cluster (Node1):&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service mysql start --wsrep-new-cluster
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;ERROR:&lt;/strong&gt; WSREP: gcs connect failed: Connection timed out
+&lt;strong&gt;SOLUTION:&lt;/strong&gt;
+Execute:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service mysql bootstrap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Restart all services of MySQL and Galera (Node1 and node2).&lt;/p&gt;
+
+&lt;p&gt;The next query response the number of nodes of cluster Galera:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql -u root -e 'SELECT VARIABLE_VALUE as &quot;cluster size&quot; FROM INFORMATION_SCHEMA.GLOBAL_STATUS WHERE VARIABLE_NAME=&quot;wsrep_cluster_size&quot;' -p
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finish the first part.&lt;/p&gt;
+</description>
+				<pubDate>Sat, 06 May 2017 01:25:06 +0200</pubDate>
+				<link>http://localhost:4000/2017/05/Galera-Cluster-on-Debian-8</link>
+				<guid isPermaLink="true">http://localhost:4000/2017/05/Galera-Cluster-on-Debian-8</guid>
+			</item>
+		
+			<item>
+				<title>Creación, publicación y firma de claves PGP</title>
+				<description>&lt;p&gt;En esta entrada vamos a ver los pasos básicos para construir un &lt;a href=&quot;https://es.wikipedia.org/wiki/Anillo_de_confianza&quot;&gt;anillo de confianza&lt;/a&gt; con PGP, certificando la identidad y firmando claves.&lt;/p&gt;
+
+&lt;h3 id=&quot;generar-par-de-claves&quot;&gt;Generar par de claves&lt;/h3&gt;
+
+&lt;p&gt;Para comenzar generamos un par de claves propio, con nuestro nombre real y correo electronico:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/.gnupg$ gpg --gen-key
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+	&lt;li&gt;Seleccionamos la opción 4 solo RSA para firmar.&lt;/li&gt;
+	&lt;li&gt;Tamaño de 4096 bits.&lt;/li&gt;
+	&lt;li&gt;En mi caso la clave nunca caduca, opción 0.&lt;/li&gt;
+	&lt;li&gt;Introducimos nuestro nombre real, correo electrónico y un comentario.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Una vez introducido las siguientes opciones, nos saldrá el siguiente mensaje.
+Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
+alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
+la red y los discos) durante la generación de números primos. Esto da al
+generador de números aleatorios mayor oportunidad de recoger suficiente
+entropía.
+Lo que tendremos que hacer es ejecutar tareas pesadas, como ejecutar una maquina virtual, para generar bytes aleatorios.&lt;/p&gt;
+
+&lt;p&gt;Para terminar nos pasara la siguiente información con el ID de nuestra clave:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg: clave **E0000000** marcada como de confianza absoluta
+claves pública y secreta creadas y firmadas.
+gpg: comprobando base de datos de confianza
+gpg: 3 dudosa(s) necesaria(s), 1 completa(s) necesaria(s),
+modelo de confianza PGP
+gpg: nivel: 0 validez: 1 firmada: 0 confianza: 0-, 0q, 0n, 0m, 0f, 1u
+pub 40000/E0000000 2015-11-19
+Huella de clave = 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+uid Nuestro_nombre (Comentario) nuestro_correo@gmail.com;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;También nos informara que la clave como configuramos anteriormente solo sirve para firmar, para cifrar tendremos que crear una subclave:&lt;/p&gt;
+
+&lt;p&gt;Tenga en cuenta que esta clave no puede ser usada para cifrar. Puede usar
+la orden “–edit-key” para crear una subclave con este propósito.&lt;/p&gt;
+
+&lt;h3 id=&quot;agregar-una-subclave-para-encriptación&quot;&gt;Agregar una subclave para encriptación&lt;/h3&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/.gnupg$ gpg --edit-key nuestro_correo@gmail.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Ejecutamos:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg: addkey
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+	&lt;li&gt;Introducimos nuestra contraseña de la clave anterior.&lt;/li&gt;
+	&lt;li&gt;Seleccionamos la opción 6 RSA solo para cifrar.&lt;/li&gt;
+	&lt;li&gt;Tamaño de 4096 bits.&lt;/li&gt;
+	&lt;li&gt;Introducimos la validez.&lt;/li&gt;
+	&lt;li&gt;De nuevo tendremos que generar bytes aleatorios con la actividad de nuestra maquina.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Guardamos y salimos:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gpg: save&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Para ver nuestra clave:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/.gnupg$ gpg -k
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;exportar-e-importar-clave-sin-firmar&quot;&gt;Exportar e importar clave sin firmar&lt;/h3&gt;
+
+&lt;p&gt;Exportar clave a archivo:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --output TclavePublica.gpg --export E0000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Exportar clave a http://pgp.mit.edu/&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --send-keys --keyserver pgp.mit.edu E0000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Importar clave de archivo:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --import clavePublica.gpg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Importar clave de http://pgp.mit.edu/&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --keyserver pgp.mit.edu --recv-keys A0000000F
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;firma-de-claves-pgp-e-importación&quot;&gt;Firma de claves PGP e importación&lt;/h3&gt;
+
+&lt;p&gt;Después podemos firmar las claves de otras personas para ampliar nuestra zona de confianza, también ellos firmaran la nuestra. En primer lugar hacemos acto de notario y confirmamos la identidad de las personas con su clave y correo.&lt;/p&gt;
+
+&lt;p&gt;Una vez echo esto firmamos su clave subida al servidor:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/.gnupg$ gpg --edit-key A0000000F
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Firmamos con:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg: sign
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Introducimos nuestra contraseña para firmar la clave ajena.&lt;/p&gt;
+
+&lt;p&gt;Guardamos y salimos:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg: save
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Enviamos clave firmada al servidor pgp.mit.edu con:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --keyserver pgp.mit.edu --send-keys A0000000F
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Eliminar clave privada:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --keyserver pgp.mit.edu --delete-secret-key E0000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Eliminar clave publica:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --keyserver pgp.mit.edu --delete-keys E0000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Mon, 06 Feb 2017 00:25:06 +0100</pubDate>
+				<link>http://localhost:4000/2017/02/Creaci%C3%B3n-publicacion-y-firma-de-claves-PGP</link>
+				<guid isPermaLink="true">http://localhost:4000/2017/02/Creaci%C3%B3n-publicacion-y-firma-de-claves-PGP</guid>
+			</item>
+		
+			<item>
+				<title>Poblar LDAP desde fichero JSON [PAM y SSH con Clave publica]</title>
+				<description>&lt;p&gt;En esta entrada podemos ver como introducir usuarios desde un fichero JSON a LDAP para utilizarlos para autenticación con &lt;strong&gt;clave publica&lt;/strong&gt; para poder acceder por ssh a nuestra maquina, con creación automática del directorio home del usuario.&lt;/p&gt;
+
+&lt;p&gt;Scripts: (https://github.com/Tedezed/LDAP/tree/master/Poblar%20LDAP%20con%20JSON)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Poblar_LDAP.py&lt;/strong&gt; Para añadir los usuarios del fichero humans.js.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Eliminar_LDAP.py&lt;/strong&gt; Para eliminar los usuarios del fichero humans.js.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;humans.js&lt;/strong&gt; Usuarios que vamos a añadir a nuestro LDAP.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;public_key.sh&lt;/strong&gt; Script para consultar la clave publica del usuario.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Comenzamos añadiendo el esquema openssh-lpk, para poder incluir claves públicas ssh en un directorio LDAP:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nano openssh-lpk.ldif
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dn: cn=openssh-lpk,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: openssh-lpk
+olcAttributeTypes: ( 1.3.6.1.4.1.24552.500.1.1.1.13 NAME 'sshPublicKey'
+  DESC 'MANDATORY: OpenSSH Public key'
+  EQUALITY octetStringMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40 )
+olcObjectClasses: ( 1.3.6.1.4.1.24552.500.1.1.2.0 NAME 'ldapPublicKey' SUP top AUXILIARY
+  DESC 'MANDATORY: OpenSSH LPK objectclass'
+  MAY ( sshPublicKey $ uid )
+  )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo ldapadd -Y EXTERNAL -H ldapi:/// -f openssh-lpk.ldif
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Creamos un virtualenv:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd .virtualenv
+virtualenv ldap
+cd ldap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Activamos el virtualenv anterior:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source bin/activate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Instalamos python-ldap:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install python-ldap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Una vez echo esto podemos ejecutar &lt;strong&gt;Poblar_LDAP.py&lt;/strong&gt; para introducir los usuarios del fichero humans.js.&lt;/p&gt;
+
+&lt;p&gt;Instalamos libnss-ldapd para la autenticación de usuario en LDAP:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install libnss-ldapd ldap-utils
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configuración durante la instalación:&lt;/p&gt;
+
+&lt;p&gt;Conexión:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ldap://localhost:389/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Base de nuestro árbol:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dc=example,dc=org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configuración de NSS con LDAP:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;passwd
+group
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configuramos /etc/pam.d/common-session&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;session [success=ok default=ignore] pam_ldap.so minimum_uid=2000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configuramos mkhomedir en pam-configs:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nano /usr/share/pam-configs/mkhomedir
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Name: Create home directory during login
+Default: yes
+Priority: 900
+Session-Type: Additional
+Session:
+        required        pam_mkhomedir.so umask=0022 skel=/etc/skel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Actualizamos pam con:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo pam-auth-update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Creamos nuestro script para obtener la clave publica del usuario del ldap:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nano /usr/bin/public_key.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#!/bin/sh
+ip_ldap=&quot;localhost&quot;
+port=389
+base=&quot;dc=example,dc=org&quot;
+
+ldapsearch -x -h $ip_ldap -p $port -b $base -s sub &quot;(&amp;amp;amp;(objectClass=posixAccount) (objectClass=ldapPublicKey) (cn=$1))&quot; | \
+sed -n '/^ /{H;d};/sshPublicKey:/x;$g;s/\n *//g;s/sshPublicKey: //gp'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Comprobamos su funcionamiento de script:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(ldap)root@debian:/home/debian/ldap/python# sh /usr/bin/public_key.sh morrigan.rigan
+ssh-rsa ssh-rsa Clave_RSA_Publica
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Editamos y especificamos la ruta del script:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nano /etc/ssh/sshd_config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# LDAP SSH
+AuthorizedKeysCommand /usr/bin/public_key.sh
+AuthorizedKeysCommandUser root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Reiniciamos:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service sshd restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Thu, 04 Aug 2016 01:25:06 +0200</pubDate>
+				<link>http://localhost:4000/2016/08/Poblar-LDAP-desde-fichero-JSON-PAM-y-SSH-con-Clave-publica</link>
+				<guid isPermaLink="true">http://localhost:4000/2016/08/Poblar-LDAP-desde-fichero-JSON-PAM-y-SSH-con-Clave-publica</guid>
+			</item>
+		
+	</channel>
+</rss>

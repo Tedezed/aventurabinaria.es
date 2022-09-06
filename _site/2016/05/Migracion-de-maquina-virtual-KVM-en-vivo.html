@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aventura Binaria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/theme_v2.css" rel="stylesheet" type="text/css">
+    <link href="/css/syntax.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="https://www.aventurabinaria.es/images/favicon-32x32.png"/>
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Aventura Binaria</a>
+              </div>
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <!--<li class="active"><a href="/">Home</a></li>-->
+                    <li class="active visible-xs-block"><a href="/links.html">Links</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/archive.html">Archive</a></li>
+                    <!--<li class="active"><a href="/about.html">About</a></li>-->
+                    <!--<li class="active"><a href="/space.html">Space</a></li>-->
+                    
+                    
+                      <li class="nav-item"><a class="nav-link" href="https://github.com/Tedezed">Github</a></li>
+                    
+                    <li class="nav-item"><a class="nav-link" href="/feed.xml">RSS</a></li>
+                </ul>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 hidden-xs">
+            <div class="sidebar well">
+Blog Sysadmin/DevOps on Github - GNU/Linux
+</div>
+
+<div class="sidebar well">
+<h4>Links</h4>
+<ul>
+  <li><a href="http://tedezed.github.io/Celtic-Kubernetes/HTML">Celtic Kubernetes</a></li>
+  <li><a href="https://twitter.com/zerrotajo">Twitter</a></li>
+  <li><a href="https://www.thingiverse.com/tedezed/designs">Thingiverse</a></li>
+  <li><a href="mailto:juanmanuel.torres@aventurabinaria.es">Mail</a></li>
+</ul>
+
+</div>
+
+<div class="sidebar well">
+    <h4>Recent Posts</h4>
+    <ul>
+        
+          <li><a href="/2020/12/Install-amd-drivers-linux-debian-ubuntu">Install AMD drivers for Linux (Debian/Ubuntu)</a></li>
+        
+          <li><a href="/2020/04/Change-local-port-in-Sendmail">Change local port in Sendmail</a></li>
+        
+          <li><a href="/2019/10/Examples-Nanorc">Examples Nanorc</a></li>
+        
+          <li><a href="/2019/07/Massive-editor-json-for-Kubernetes">Massive editor json for Kubernetes</a></li>
+        
+          <li><a href="/2019/03/Ingress-TCP-UDP">Ingress TCP/UDP</a></li>
+        
+          <li><a href="/2019/03/Delete-namespace-in-perpetual-Terminating-state">Delete namespace in perpetual Terminating state</a></li>
+        
+          <li><a href="/2017/06/External-Load-Balancer-for-Kubernetes-HAProxy">External Load Balancer for Kubernetes - HAProxy</a></li>
+        
+          <li><a href="/2017/05/Galera-Cluster-on-Debian-8">Galera Cluster on Debian 8</a></li>
+        
+          <li><a href="/2017/02/Creaci%C3%B3n-publicacion-y-firma-de-claves-PGP">Creación, publicación y firma de claves PGP</a></li>
+        
+          <li><a href="/2016/08/Poblar-LDAP-desde-fichero-JSON-PAM-y-SSH-con-Clave-publica">Poblar LDAP desde fichero JSON [PAM y SSH con Clave publica]</a></li>
+        
+          <li><a href="/2016/08/Pantalla-LCD-16-2-y-PCF8574-(I2C)-para-Arduino">Pantalla LCD 16×2 y PCF8574 (I2C) para Arduino</a></li>
+        
+          <li><a href="/2016/08/Pantalla-LCD-16x2-y-PCF8574-(I2C)-para-Raspberry-pi">Pantalla LCD 16x2 y PCF8574 (I2C) para Raspberry pi</a></li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="article">
+            <div class="well">
+                <h1><a href="/2016/05/Migracion-de-maquina-virtual-KVM-en-vivo">Migración de maquina virtual KVM en vivo</a></h1>
+                <h5>18 May, 2016</h5>
+                <hr/>
+            
+                
+                <p class="author"><a href="#disqus_thread" data-disqus-identifier="2016-05-migracion-de-maquina-virtual-kvm-en-vivo">Comments</a></p>
+                
+            
+            <div class="post-content">
+            <p>En esta entrada podremos ver la migración de una maquina en <a href="http://www.linux-kvm.org">kvm</a> (VM-1) con dos volúmenes, a otra maquina (VM-2) redimensionando de camino sus volúmenes lógicos y aumentando su capacidad en vivo.</p>
+
+<p>La maquina VM-1 contara de dos volúmenes; el raíz donde se encuentra la instalación de Debian y otro con Postgres. A continuación expongo el orden de la migración:</p>
+
+<h4 id="orden-de-migración">Orden de migración:</h4>
+
+<ul>
+  <li>Snapshot de de disco raíz VM-1.</li>
+  <li>Nuevo volumen de 2GB.</li>
+  <li>Con dd pasamos el snapshot de raiz de VM-1 al volumen de 2GB (VM-2-raiz).</li>
+  <li>Creamos nueva maquina con VM-2-raiz.</li>
+  <li>Paramos Postgres.</li>
+  <li>Desmontamos volumen Postgres.</li>
+  <li>Redimensionamos volumen Postgres.</li>
+  <li>Montamos en VM-2 el volumen de Postgres.</li>
+  <li>Arrancamos Postgres en VM-2.</li>
+  <li>Cambio de regla DNAT.</li>
+</ul>
+
+<h3 id="instalación-y-configuración-de-vm-1">Instalación y configuración de VM-1</h3>
+<p>En primer lugar explicare la instalación de la maquina VM-1.</p>
+
+<p><strong>En anfitrión:</strong></p>
+
+<p>Creamos dos volúmenes lógicos:
+<code class="language-plaintext highlighter-rouge">lvcreate -n VM-1-raiz -L 1G LVD-Debian</code>
+<code class="language-plaintext highlighter-rouge">lvcreate -n postgres-lvm -L 1G GLVM</code></p>
+
+<p>Copiamos configuración previa:
+<code class="language-plaintext highlighter-rouge">cp /etc/libvirt/qemu/Debian-Test.xml /etc/libvirt/qemu/VM-1.xml</code></p>
+
+<p>Buscar y remplazar (Cambio de nombre, eliminar uuid y mac):
+<code class="language-plaintext highlighter-rouge">sed -i 's/Debian-Test/VM-1/' /etc/libvirt/qemu/VM-1.xml; sed -i /uuid/d /etc/libvirt/qemu/VM-1.xml; sed -i '/mac address/d' /etc/libvirt/qemu/VM-1.xml</code></p>
+
+<p>Añadimos los volúmenes:
+<code class="language-plaintext highlighter-rouge">nano /etc/libvirt/qemu/VM-1.xml</code></p>
+
+<p>Arrancamos la red:
+<code class="language-plaintext highlighter-rouge">virsh net-start default</code></p>
+
+<p>Definir VM-1:
+<code class="language-plaintext highlighter-rouge">virsh define /etc/libvirt/qemu/VM-1.xml</code></p>
+
+<p>Arrancar VM-1:
+<code class="language-plaintext highlighter-rouge">virsh start VM-1</code></p>
+
+<p><strong>En VM-1:</strong></p>
+
+<p>Instalamos Debian, en el volumen raíz.</p>
+
+<p>Damos formato xfs al volumen:
+<code class="language-plaintext highlighter-rouge">mkfs.xfs /dev/vdb</code></p>
+
+<p>Añadimos el volumen a /etc/fstab
+<code class="language-plaintext highlighter-rouge">/dev/vdb /var/lib/postgresql xfs defaults 0 1</code></p>
+
+<p>Reiniciamos la maquina:</p>
+<pre><code class="language-reboot```">
+Instalamos Postgres:
+```apt-get install postgresql-9.4```
+Configuración de Postgres:
+
+Entramos en el directorio main de Postgres 9.4:
+```nano /etc/postgresql/9.4/main/postgresql.conf```
+
+Editamos el archivo de configuración postgresql.conf:
+Buscamos la siguiente linea:
+```#listen_addresses = 'localhost'```
+
+Ponemos especificar la IP remota:
+```listen_addresses = '172.22.7.88'```
+
+También la podemos cambiar por '\*' para que se puedan conectar todas las IP:
+```listen_addresses = '*'```
+
+Buscamos al siguiente linea:
+```#password_encryption = on```
+
+Habilitamos el cifrado de la contraseña:
+```password_encryption = on```
+
+Editamos el siguiente archivo:
+
+```nano /etc/postgresql/9.4/main/pg_hba.conf```
+
+Con este archivo podemos configurar las relaciones de confianzas de host y redes.
+```host all all 127.0.01/32 md5```
+
+También podemos dar acceso a todas las redes con:
+```host all all 0.0.0.0 0.0.0.0 md5```
+
+Reiniciamos el servicio con:
+```service postgresql restart```
+
+Creamos usuario morrigan para realizar una prueba:
+</code></pre>
+<p>CREATE USER morrigan PASSWORD ‘morrigan’;
+ALTER ROLE morrigan CREATEDB;
+\q
+psql -h localhost -d postgres -U morrigan
+CREATE DATABASE programas;
+\q</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+**En anfitrión:**
+
+Modificamos iptables:
+Limpiamos FORDWARD:
+```iptables -F FORWARD```
+
+**DNAT:**
+```iptables -t nat -A PREROUTING -p tcp --dport 5432 -i wlan0 -j DNAT --to 192.168.122.232```
+
+Desde otro equipo probamos la configuración anterior:
+```psql -h IP-anfitrion -U morrigan```
+
+### Migración de VM-1 a VM-2
+
+**En el anfitrión:**
+
+Creamos un snapshot a un volumen logico:
+```lvcreate --snapshot -L1G -n VM-1-raiz-snapshot LVD-Debian/VM-1-raiz```
+
+Creamos un volumen final para VM-2 con 2GB:
+```lvcreate -n VM-2-raiz -L 2G LVD-Debian```
+
+Volcamos de VM-1-raiz-snapshot a VM-2-raiz
+```dd if=/dev/LVD-Debian/VM-1-raiz-snapshot of=/dev/LVD-Debian/VM-2-raiz```
+Creamos una nueva maquina VM-2:
+Copiamos configuración previa:
+```cp /etc/libvirt/qemu/VM-1.xml /etc/libvirt/qemu/VM-2.xml```
+
+Buscar y remplazar:
+```sed -i 's/VM-1/VM-2/' /etc/libvirt/qemu/VM-2.xml; sed -i /uuid/d /etc/libvirt/qemu/VM-2.xml; sed -i '/mac address/d' /etc/libvirt/qemu/VM-2.xml; sed -i 's/524288/1048576/' /etc/libvirt/qemu/VM-2.xml```
+
+Añadimos el volumen anterior:
+```nano /etc/libvirt/qemu/VM-2.xml```
+
+Definimos el nuevo server VM-2:
+```virsh define /etc/libvirt/qemu/VM-2.xml```
+
+Arrancamos el nuevo server VM-2:
+```virsh start VM-2```
+
+**En VM-2:**
+
+Modificamos la tabla de particiones:
+```fdisk /dev/vda```
+
+Eliminamos la partición con: d
+Creamos una nueva con: n
+Abarcamos el disco entero.
+Finalmente escribimos los cambios: w
+
+Extendemos con xfs_growfs la partición xfs:
+```xfs_growfs -d /dev/vda1```
+
+Comprobamos el resultado con:
+</code></pre></div></div>
+<p>root@debian:/home/debian# df -h
+S.ficheros Tamaño Usados Disp Uso% Montado en
+/dev/vda1 2,0G 821M 1,2G 41% /
+```</p>
+
+<p>Con esto, ya tendríamos montado el disco raíz de la maquina en producción VM-1 en VM-2, mientras VM-1 sigue prestando servicio.</p>
+
+<p><strong>En VM-1:</strong></p>
+
+<p>Paramos postgres:
+<code class="language-plaintext highlighter-rouge">service postgresql stop</code></p>
+
+<p>Desmontamos el directorio:
+<code class="language-plaintext highlighter-rouge">umount /var/lib/postgresql</code></p>
+
+<p><strong>En anfitrión:</strong></p>
+
+<p>Desacoplamos el disco vdb de VM-1:
+<code class="language-plaintext highlighter-rouge">virsh detach-disk VM-1 vdb</code></p>
+
+<p>Redimensionamos el volumen:
+<code class="language-plaintext highlighter-rouge">lvresize -L +1GB /dev/LVD-Debian/postgres-lvm</code></p>
+
+<p>Acoplamos el volumen de VM-1 en VM-2:
+<code class="language-plaintext highlighter-rouge">virsh attach-disk VM-2 /dev/LVD-Debian/postgres-lvm sdb</code></p>
+
+<p><strong>En VM-2:</strong></p>
+
+<p>Cambiamos vdb por sda nano /etc/fstab
+<code class="language-plaintext highlighter-rouge">/dev/sda /var/lib/postgresql xfs defaults 0 1</code></p>
+
+<p>Montamos con:
+<code class="language-plaintext highlighter-rouge">mount -a</code></p>
+
+<p>Redimensionamos xfs:
+<code class="language-plaintext highlighter-rouge">xfs_growfs -d /dev/sda</code></p>
+
+<p>Iniciamos Postgresql:
+<code class="language-plaintext highlighter-rouge">/etc/init.d/postgresql start</code></p>
+
+<p>Por ultimo modificamos iptables para cambiar el trafico del puerto 5432:
+Eliminamos la regla anterior:
+<code class="language-plaintext highlighter-rouge">iptables -t nat -D PREROUTING -p tcp --dport 5432 -i wlan0 -j DNAT --to 192.168.122.232</code></p>
+
+<p>Añadimos la regla nueva:
+<code class="language-plaintext highlighter-rouge">iptables -t nat -A PREROUTING -p tcp --dport 5432 -i wlan0 -j DNAT --to 192.168.122.73</code></p>
+
+<p>Con esto terminamos las migración.</p>
+
+            </div>
+            
+                
+            <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div>
+                
+            
+            </div>
+          </div>
+          <div class="pagination">
+              
+                <a class="btn btn-default" href="/2016/05/Asociar-VIP-Virtual-IP-a-IP-flotante-OpenStack" class="next">Newer Post</a>
+              
+              
+                <a class="btn btn-default" href="/2016/05/Instalar-cliente-Oralce-SQL-Plus-en-Debian" class="previous">Older Post</a>
+              
+          </div>
+        </div>
+        <div class="col-md-3 hidden-xs">
+            <div class="sidebar well">
+    <!--<h4>Twitter</h4>
+    <a class="twitter-timeline" data-height="515" href="https://twitter.com/Zerrotajo?ref_src=twsrc%5Etfw">Tweets by Zerrotajo</a>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=sysadmin&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">#sysadmin</a>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=kubernetes&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">#kubernetes</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>-->
+<h4>Kubernetes Containers Tools</h4>
+  <ul>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/squirrel">Squirel secrets rotation</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/liberty">Liberty Ingress</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/secure_emailing">Secure Emailing Gateway</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/cloud-cementery/docker">Cloud Cementery</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/cron-backup-kubernetes">Backups for Kubernetes in yaml</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/backup-db-cron">Backups/Snapshots for all</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/sftp-multiuser">SFTP Multiuser</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/statefulset_autoscaler">StatefulSet autoscaler</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/tools/Kubernetes/concurrent-kubectl-gcloud">Concurrent kubectl gcloud</a></li>
+    <li><a href="https://github.com/Tedezed/kubernetes-containers-tools/tree/master/debian-box">Debian Box</a></li>
+  </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+    var disqus_shortname = 'www-aventurabinaria-es';
+
+    var disqus_config = function () {
+        this.page.identifier = '2016-05-migracion-de-maquina-virtual-kvm-en-vivo';
+    };
+
+   (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+
+<!--<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12 footer navbar-inverse navbar-fixed-bottom">
+            <p class="copyright">&copy;2022 Aventura Binaria. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="https://github.com/scotte/jekyll-clean">Scott Emmons</a>
+            under
+            <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a></p>
+        </div>
+    </div>
+</div>-->
+
+
+  <script type="text/javascript">
+    var disqus_shortname = 'www-aventurabinaria-es';
+
+    var disqus_config = function () {
+        this.page.identifier = '2016-05-migracion-de-maquina-virtual-kvm-en-vivo';
+    };
+
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+ </script>
+
+
+<!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153422845-1"></script>
+  <script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-153422845-1');
+  </script>
+
+-->
+
+</body>
+</html>
+
