@@ -4,19 +4,19 @@
     --bg-color: #fff;
     --navbar-text-invers-color: #ff2626;
     --navbar-text-color: #000000;
-    --navbar-bg-color: #ffffff;
+    --navbar-bg-color: #f8f8f8;
     
-    --copyright-color: #cc3b3b;
+    --copyright-color: #ff2626;
     --footer-a-color: #906d6d;
     --sidebar-hn-color: #000000;
     --sidebar-a-color: #000000;
     --sidebar-a-hover-color: #8b8b8b;
     --well-text-color: #ffffff;
-    --well-bg-color: #ffffff;
-    --well-border-color: #000000;
-    --well-hn-color: #000000;
+    --well-bg-color: #f8f8f8;
+    --well-border-color: #ffffff;
+    --well-hn-color: #ff2626;
     --well-a-color: #000;
-    --author-color: #e93535;
+    --author-color: #ff2626;
     --author-a-color: #37493a;
     
     --code-color: #000;
@@ -24,15 +24,15 @@
 }
 
 /* Dark theme */
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
     :root {
         --text-color: #fff;
         --bg-color: #000;
-        --navbar-text-invers-color: #414141;
+        --navbar-text-invers-color: #ff2626;
         --navbar-text-color: #ffffff;
         --navbar-bg-color: #000000;
         
-        --copyright-color: #cc3b3b;
+        --copyright-color: #ff2626;
         --footer-a-color: #906d6d;
         --sidebar-hn-color: #ffffff;
         --sidebar-a-color: #ffffff;
@@ -40,9 +40,9 @@
         --well-text-color: #ffffff;
         --well-bg-color: #000000;
         --well-border-color: #ffffff;
-        --well-hn-color: #ffffff;
+        --well-hn-color: #ff2626;
         --well-a-color: #fff;
-        --author-color: #e93535;
+        --author-color: #ff2626;
         --author-a-color: #37493a;
 
         --code-color: #fff;
@@ -148,13 +148,13 @@ body {
 .navbar .navbar-brand {
     color: var(--navbar-text-color);
     background-color: var(--navbar-bg-color);
-    border: hidden;
+    border: hidden var(--well-border-color);;
 }
 
 .navbar .navbar-brand:hover {
     color: var(--navbar-text-invers-color);
     background-color: var(--navbar-bg-color);
-    border: hidden;
+    border: hidden var(--well-border-color);;
 
     -webkit-transition: color 1s;
     -moz-transition:    color 1s;
@@ -166,25 +166,25 @@ body {
 .navbar-inverse {
     color: var(--navbar-text-invers-color);
     background-color: var(--navbar-bg-color);
-    border: hidden;
+    border: hidden var(--well-border-color);;
 }
 
 .navbar-inverse .navbar-brand {
     color: var(--navbar-text-color);
     background-color: var(--navbar-bg-color);
-    border: hidden;
+    border: hidden var(--well-border-color);;
 }
 
 .navbar-collapse .navbar-nav .nav-item .nav-link{
     color: var(--navbar-text-color);
     background: var(--navbar-bg-color);
-    border: hidden;
+    border: hidden var(--well-border-color);;
 }
 
 .navbar-collapse .navbar-nav .nav-item .nav-link:hover{
     color: var(--navbar-text-invers-color);
     background: var(--navbar-bg-color);
-    border: hidden;
+    border: hidden var(--well-border-color);;
 
     -webkit-transition: color 1s;
     -moz-transition:    color 1s;
