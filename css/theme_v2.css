@@ -13,7 +13,7 @@
     --sidebar-a-hover-color: #8b8b8b;
     --well-text-color: #ffffff;
     --well-bg-color: #f8f8f8;
-    --well-border-color: #ffffff;
+    --well-border-color: #d8d8d8;
     --well-hn-color: #ff2626;
     --well-a-color: #000;
     --author-color: #ff2626;
@@ -21,10 +21,11 @@
     
     --code-color: #000;
     --code-bg-color: #d8d8d8;
+    --code-bg-small-color: #e9e9e9;
 }
 
 /* Dark theme */
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
     :root {
         --text-color: #fff;
         --bg-color: #000;
@@ -38,15 +39,16 @@
         --sidebar-a-color: #ffffff;
         --sidebar-a-hover-color: #626262;
         --well-text-color: #ffffff;
-        --well-bg-color: #000000;
-        --well-border-color: #ffffff;
+        --well-bg-color: #111111;
+        --well-border-color: #1b1b1b;
         --well-hn-color: #ff2626;
         --well-a-color: #fff;
         --author-color: #ff2626;
         --author-a-color: #37493a;
 
         --code-color: #fff;
-        --code-bg-color: #141414;
+        --code-bg-color: #1b1b1b;
+        --code-bg-small-color: #161616;
     }
 }
 
@@ -55,6 +57,31 @@ body {
     padding-bottom: 60px;
     background-color: var(--bg-color);
     color: var(--text-color);
+}
+
+.dark-mode {
+    --text-color: #fff;
+    --bg-color: #000;
+    --navbar-text-invers-color: #ff2626;
+    --navbar-text-color: #ffffff;
+    --navbar-bg-color: #000000;
+    
+    --copyright-color: #ff2626;
+    --footer-a-color: #906d6d;
+    --sidebar-hn-color: #ffffff;
+    --sidebar-a-color: #ffffff;
+    --sidebar-a-hover-color: #626262;
+    --well-text-color: #ffffff;
+    --well-bg-color: #111111;
+    --well-border-color: #1b1b1b;
+    --well-hn-color: #ff2626;
+    --well-a-color: #fff;
+    --author-color: #ff2626;
+    --author-a-color: #37493a;
+
+    --code-color: #fff;
+    --code-bg-color: #1b1b1b;
+    --code-bg-small-color: #313131;
 }
 
 .copyright {
@@ -117,7 +144,17 @@ body {
 }
 
 .well h1 {
-    color: var(--well-hn-color);
+    color: var(--well-hn-color) !important;
+    font-size: 33px;
+}
+
+.well h1 a{
+    color: var(--well-hn-color) !important;
+    font-size: 33px;
+}
+
+.well h1 a:hover{
+    color: var(--text-color) !important;
     font-size: 33px;
 }
 
@@ -148,7 +185,7 @@ body {
 .navbar .navbar-brand {
     color: var(--navbar-text-color);
     background-color: var(--navbar-bg-color);
-    border: hidden var(--well-border-color);;
+    border: hidden var(--well-border-color);
 }
 
 .navbar .navbar-brand:hover {
@@ -166,7 +203,7 @@ body {
 .navbar-inverse {
     color: var(--navbar-text-invers-color);
     background-color: var(--navbar-bg-color);
-    border: hidden var(--well-border-color);;
+    border-bottom: 1px solid var(--well-border-color);;
 }
 
 .navbar-inverse .navbar-brand {
@@ -202,6 +239,18 @@ body {
 .highlighter-rouge {
     color: var(--code-color);
     background: var(--code-bg-color) !important;
+    border: hidden var(--well-border-color);
+}
+
+.btn {
+    color: var(--code-color) !important;
+    background: var(--code-bg-color) !important;
+    border: hidden var(--well-border-color);
+}
+
+.btn:hover {
+    color: var(--code-color) !important;
+    background: var(--sidebar-a-hover-color) !important;
     border: hidden var(--well-border-color);
 }
 

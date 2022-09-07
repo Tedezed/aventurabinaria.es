@@ -11,6 +11,7 @@
     <link href="{{ site.baseurl }}/css/theme_v2.css" rel="stylesheet" type="text/css">
     <link href="{{ site.baseurl }}/css/syntax.css" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/png" href="https://www.aventurabinaria.es/images/favicon-32x32.png"/>
+    <meta name="color-scheme" content="light dark" />
 {% include isso-comments.html %}
 </head>
 
@@ -42,6 +43,7 @@
                       <li class="nav-item"><a class="nav-link" href="https://github.com/{{ site.github }}">Github</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ site.baseurl }}/feed.xml">RSS</a></li>
+                    <li class="nav-item"><a id="theme-color-button" class="nav-link" onclick="switchDarkLight()" href="javascript:void(0);">Dark/Light</a></li>
                 </ul>
               </div>
         </div>
