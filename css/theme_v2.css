@@ -254,6 +254,17 @@ body {
     border: hidden var(--well-border-color);
 }
 
+.navbar-toggle {
+    color: var(--code-color) !important;
+    background: var(--code-bg-color) !important;
+    border: hidden var(--well-border-color);
+}
+
+.navbar-toggle:hover {
+    color: var(--code-color) !important;
+    background: var(--sidebar-a-hover-color) !important;
+    border: hidden var(--well-border-color);
+}
 
 
 
