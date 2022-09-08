@@ -3,6 +3,7 @@
     --text-color: #000;
     --bg-color: #fff;
     --navbar-text-invers-color: #ff2626;
+    --navbar-text-logo-invers-color: #ff9a26;
     --navbar-text-color: #000000;
     --navbar-bg-color: #f8f8f8;
     
@@ -30,6 +31,7 @@
         --text-color: #fff;
         --bg-color: #000;
         --navbar-text-invers-color: #ff2626;
+        --navbar-text-logo-invers-color: #ff9a26;
         --navbar-text-color: #ffffff;
         --navbar-bg-color: #000000;
         
@@ -63,6 +65,7 @@ body {
     --text-color: #fff;
     --bg-color: #000;
     --navbar-text-invers-color: #ff2626;
+    --navbar-text-logo-invers-color: #ff9a26;
     --navbar-text-color: #ffffff;
     --navbar-bg-color: #000000;
     
@@ -188,8 +191,21 @@ body {
     border: hidden var(--well-border-color);
 }
 
-.navbar .navbar-brand:hover {
+.navbar-inverse {
     color: var(--navbar-text-invers-color);
+    background-color: var(--navbar-bg-color);
+    border-bottom: 1px solid var(--well-border-color);;
+}
+
+/* Logo */
+.navbar-inverse .navbar-brand {
+    color: var(--navbar-text-invers-color);
+    background-color: var(--navbar-bg-color);
+    border: hidden var(--well-border-color);;
+}
+
+.navbar .navbar-brand:hover {
+    color: var(--navbar-text-color);
     background-color: var(--navbar-bg-color);
     border: hidden var(--well-border-color);;
 
@@ -200,17 +216,6 @@ body {
     transition:         color 1s;
 }
 
-.navbar-inverse {
-    color: var(--navbar-text-invers-color);
-    background-color: var(--navbar-bg-color);
-    border-bottom: 1px solid var(--well-border-color);;
-}
-
-.navbar-inverse .navbar-brand {
-    color: var(--navbar-text-color);
-    background-color: var(--navbar-bg-color);
-    border: hidden var(--well-border-color);;
-}
 
 .navbar-collapse .navbar-nav .nav-item .nav-link{
     color: var(--navbar-text-color);

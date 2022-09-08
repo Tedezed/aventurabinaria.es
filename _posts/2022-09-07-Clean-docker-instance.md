@@ -17,7 +17,7 @@ done
 docker rmi $(docker images -a --filter=dangling=true -q)
 ```
 
-**Clean containers with status exited and exited**
+**Clean containers with filtered by status**
 ```
 docker rm $(docker ps --filter=status=exited --filter=status=created -q)
 ```
