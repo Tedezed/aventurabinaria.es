@@ -6,11 +6,13 @@ comments: true
 ---
 
 **Clean Logs**
+{% raw %}
 ```
 for l in $(docker inspect --format='{{.LogPath}}' $(docker ps -q)); do
   echo "" > $l
 done
 ```
+{% endraw %}
 
 **Clean images**
 ```
